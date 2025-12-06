@@ -1,6 +1,6 @@
 # Table of contents
 
-* [Oui](README.md)
+* [Welcome to Kev & JH, your source for FiveM scripts](README.md)
 
 ## JH Script
 

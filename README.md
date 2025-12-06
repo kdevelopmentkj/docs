@@ -11,4 +11,6 @@ Whether you're a beginner creator or an experienced administrator, our scripts a
 📩 **Fast support,** Assistance to help you install and configure your purchases\
 🚀 **Updates included,** Access new versions at no additional cost
 
-⚠ **Important note**: Scripts are digital products; no refunds will be issued after purchase.
+{% hint style="danger" %}
+**Important note**: Scripts are digital products; no refunds will be issued after purchase.
+{% endhint %}

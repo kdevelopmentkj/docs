@@ -13,6 +13,7 @@
 <summary>Scripts Lists</summary>
 
 * :green\_circle: [Xgroups](jh-script/xscript/xgroups/)
+* :green\_circle: [Xstates](xstates/)
 * :orange\_circle: Xcars
 * :red\_circle: Xprops
 * :red\_circle: Xtime
@@ -29,4 +30,3 @@ to understand the color codes of the development stages :
 * :green\_circle: `--->` _Development completed and script available_
 * :orange\_circle: `--->` _Development in progress or script in testing and not available_
 * :red\_circle: `--->` _Development not started and script not available_
-

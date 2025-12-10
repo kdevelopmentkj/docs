@@ -12,7 +12,7 @@
 
 <summary>Scripts Lists</summary>
 
-* :green\_circle: [Xgroups](jh-script/xscript/xgroups/)
+* :green\_circle: [Xgroups](xgroups/)
 * :green\_circle: [Xstates](xstates/)
 * :orange\_circle: Xcars
 * :red\_circle: Xprops

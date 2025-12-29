@@ -30,7 +30,8 @@ Xgroups.hasGlobal(options)
 ```
 
 * options: <kbd>table</kbd>
-  * groupName: <kbd>string</kbd> (optionnel) AUTO Check hasGroup()
+  * groupName: <kbd>string</kbd> (optionnel) AUTO Check hasGroup() if not gradeName
+  * gradeName: <kbd>string</kbd> (optionnel) AUTO Check hasGradeByGroup() if gName and gName
   * permission: **perm** <kbd>string</kbd> (optionnel) AUTO Check hasPermission()
   * duty: **groupName** <kbd>string</kbd> (optionnel) AUTO Check isDuty()
   * bypass: <kbd>boolean</kbd> (optionnel) AUTO Check hasBypass()
@@ -49,6 +50,15 @@ Xgroups.hasPermission(perm)
 
 ```lua
 Xgroups.hasGroup(groupName)
+```
+
+* groupName: `string`
+* **return** hasgroup: `boolean`
+
+***
+
+```lua
+Xgroups.hasGradeByGroup(groupName, gradeName)
 ```
 
 * groupName: `string`

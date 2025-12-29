@@ -23,12 +23,36 @@ local Xgroups = exports.Xgroups:getSharedObject()
 
 ***
 
+***
+
+```lua
+Xgroups.hasGlobal(options)
+```
+
+* options: <kbd>table</kbd>
+  * groupName: <kbd>string</kbd> (optionnel) AUTO Check hasGroup()
+  * permission: **perm** <kbd>string</kbd> (optionnel) AUTO Check hasPermission()
+  * duty: **groupName** <kbd>string</kbd> (optionnel) AUTO Check isDuty()
+  * bypass: <kbd>boolean</kbd> (optionnel) AUTO Check hasBypass()
+* **return** hasaccess: `boolean`
+
+***
+
 ```lua
 Xgroups.hasPermission(perm)
 ```
 
 * perm: `string`
 * **return** hasperm: `boolean`
+
+***
+
+```lua
+Xgroups.hasGroup(groupName)
+```
+
+* groupName: `string`
+* **return** hasgroup: `boolean`
 
 ***
 
@@ -41,6 +65,24 @@ Xgroups.hasBypass()
 ***
 
 ```lua
+Xgroups.isDuty()
+```
+
+* **return** isduty: `boolean`&#x20;
+
+***
+
+```lua
+Xgroups.setDuty(groupName, duty)
+```
+
+* groupName: `number`&#x20;
+* duty: `boolean`
+* **return** edited: `boolean`
+
+***
+
+```lua
 Xgroups.getPlayerGroups()
 ```
 
@@ -49,7 +91,31 @@ Xgroups.getPlayerGroups()
 ***
 
 ```lua
+Xgroups.getPlayerCompatibilityGroups()
+```
+
+* **return** compatibility\_jobs\_list: `table`
+
+***
+
+```lua
 Xgroups.getPlayerPermissions()
 ```
 
 * **return** perm\_list: `table`
+
+***
+
+```lua
+Xgroups.getPlayerDuty()
+```
+
+* **return** duty\_list: `table`
+
+***
+
+```lua
+Xgroups.getPlayerCompatibilityDuty()
+```
+
+* **return** compatibility\_duty\_list: `table`

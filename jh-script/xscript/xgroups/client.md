@@ -23,8 +23,6 @@ local Xgroups = exports.Xgroups:getSharedObject()
 
 ***
 
-***
-
 ```lua
 Xgroups.hasGlobal(options)
 ```

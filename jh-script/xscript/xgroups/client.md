@@ -49,8 +49,7 @@ Xgroups.getPlayerGroups()
 ***
 
 ```lua
-Xgroups.GetPlayerPermissions()
+Xgroups.getPlayerPermissions()
 ```
 
 * **return** perm\_list: `table`
-

@@ -35,7 +35,7 @@ Xgroups.getPlayerGroups(source)
 ***
 
 ```lua
-Xgroups.GetPlayerPermissions(source)
+Xgroups.getPlayerPermissions(source)
 ```
 
 * source: `number`

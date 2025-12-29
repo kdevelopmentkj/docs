@@ -22,11 +22,15 @@ _**In itself, Xstates works exactly like Fivem's States bag! So you can do exact
 
 ***
 
+#### To Import on fxmanifest.lua :
+
+```lua
+shared_script '@Xstates/imports.lua' 
+```
+
 #### Shared Side :
 
 ```lua
-local Xstates = exports.Xstates:getSharedObject()
-
 -- GlobalState Example :
 Xstates.GlobalState['Mystate'] = {
     data = 'data Global',
@@ -56,4 +60,25 @@ Xstates.Player(1).state.Mystate = {
 }
 Xstates.Player(1).state.Mystate.data = 'New data Player'
 Xstates.Player(1).state.Mystate.table.data2 = 'New data2 Player'
+
+ (custom statebag by Xstates based on the global statebag). Note: by default, the resource statebag (without specifying a name) allows access only to data of the current resource. To read the ResourceState of another resource, you must use the explicit resource name as a parameter (e.g., Xstates.Resource('resource_name').state).
+-- Resource by name State Example :
+Xstates.Resource('myresource').state.Mystate = {
+    data = 'data Resource',
+    table = {
+        data2 = 'data2 Resource',
+    },
+}
+Xstates.Resource('myresource').state.Mystate.data = 'New data Resource'
+Xstates.Resource('myresource').state.Mystate.table.data2 = 'New data2 Resource'
+
+-- Resource State Example :
+Xstates.Resource().state.Mystate = {
+    data = 'data Resource',
+    table = {
+        data2 = 'data2 Resource',
+    },
+}
+Xstates.Resource().state.Mystate.data = 'New data Resource'
+Xstates.Resource().state.Mystate.table.data2 = 'New data2 Resource'
 ```

@@ -19,7 +19,7 @@ layout:
 
 ***
 
-#### Client Side :
+## Client Side :
 
 ```lua
 local Xgroups = exports.Xgroups:getSharedObject()
@@ -37,7 +37,7 @@ end)
 
 ***
 
-#### Server Side :
+## Server Side :
 
 ```lua
 local Xgroups = exports.Xgroups:getSharedObject()

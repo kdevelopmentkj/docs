@@ -16,6 +16,7 @@
     * [Server](jh-script/xscript/xgroups/server.md)
   * [Xstates](jh-script/xscript/xstates/README.md)
     * [Example of use](jh-script/xscript/xstates/example-of-use.md)
+    * [Configuration](jh-script/xscript/xstates/configuration.md)
 * [Other Script](jh-script/other-script/README.md)
   * [JH\_Persistance](jh-script/other-script/jh_persistance/README.md)
     * [Server](jh-script/other-script/jh_persistance/server.md)

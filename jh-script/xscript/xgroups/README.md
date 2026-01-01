@@ -68,3 +68,12 @@ _All operations in the system are fully **typesafe** and protected using **pcall
 
 * onesync
 * oxmysql
+
+#### 🔗 Compatibility
+
+Xgroups is compatible with the following frameworks :
+
+* ESX
+* QBCore
+* OXCore
+* Standalone

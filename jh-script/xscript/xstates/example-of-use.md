@@ -81,4 +81,21 @@ Xstates.Resource().state.Mystate = {
 }
 Xstates.Resource().state.Mystate.data = 'New data Resource'
 Xstates.Resource().state.Mystate.table.data2 = 'New data2 Resource'
+
+-- Using .set() method for immediate save (bypasses debounce) :
+Xstates.GlobalState.set('Mystate', { data = 'Immediate save' }, true)
+Xstates.Player(1).state.set('Mystate', { data = 'Immediate save' }, true)
+
+-- Client Side - Using LocalPlayer and LocalResource :
+Xstates.LocalPlayer.state.MyData = {
+    health = 100,
+    position = vector3(0, 0, 0)
+}
+Xstates.LocalPlayer.state.MyData.health = 75
+
+Xstates.LocalResource.state.MyConfig = {
+    enabled = true,
+    value = 42
+}
+Xstates.LocalResource.state.MyConfig.enabled = false
 ```

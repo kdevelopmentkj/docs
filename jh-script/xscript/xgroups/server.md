@@ -47,6 +47,7 @@ Xgroups.hasGradeByGroup(source, groupName, gradeName)
 
 * source: `number`
 * groupName: `string`
+* gradeName: `string`
 * **return** hasgroup: `boolean`
 
 ***
@@ -74,7 +75,7 @@ Xgroups.setDuty(source, groupName, duty)
 ```
 
 * source: `number`&#x20;
-* groupName: `number`&#x20;
+* groupName: `string`&#x20;
 * duty: `boolean`
 * **return** edited: `boolean`
 

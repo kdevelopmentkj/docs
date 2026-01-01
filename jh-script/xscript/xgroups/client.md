@@ -27,12 +27,12 @@ local Xgroups = exports.Xgroups:getSharedObject()
 Xgroups.hasGlobal(options)
 ```
 
-* options: <kbd>table</kbd>
-  * groupName: <kbd>string</kbd> (optionnel) AUTO Check hasGroup() if not gradeName
-  * gradeName: <kbd>string</kbd> (optionnel) AUTO Check hasGradeByGroup() if gName and gName
-  * permission: **perm** <kbd>string</kbd> (optionnel) AUTO Check hasPermission()
-  * duty: **groupName** <kbd>string</kbd> (optionnel) AUTO Check isDuty()
-  * bypass: <kbd>boolean</kbd> (optionnel) AUTO Check hasBypass()
+* options: `table`
+  * groupName: `string` (optionnel) AUTO Check hasGroup() if not gradeName
+  * gradeName: `string` (optionnel) AUTO Check hasGradeByGroup() if gName and gName
+  * permission: **perm** `string` (optionnel) AUTO Check hasPermission()
+  * duty: **groupName** `string` (optionnel) AUTO Check isDuty()
+  * bypass: `boolean` (optionnel) AUTO Check hasBypass()
 * **return** hasaccess: `boolean`
 
 ***
@@ -77,7 +77,7 @@ Xgroups.hasBypass()
 Xgroups.isDuty()
 ```
 
-* **return** isduty: `boolean`&#x20;
+* **return** isduty: `boolean`
 
 ***
 
@@ -85,7 +85,7 @@ Xgroups.isDuty()
 Xgroups.setDuty(groupName, duty)
 ```
 
-* groupName: `string`&#x20;
+* groupName: `string`
 * duty: `boolean`
 * **return** edited: `boolean`
 

@@ -34,7 +34,6 @@ _All menu operations are fully protected via **pcall**, ensuring that unexpected
 * **Dynamic Modifications** - Change item properties on-the-fly using `setText`, `setChecked`, `setVisible`, `setDisabled`
 * **Item Identification** - Find items by `customIdentifier` or UUID for advanced menu manipulation
 * **Adaptive Menu Width** - Menu width automatically adjusts based on content length
-* **Custom Require System** - Built-in module loader for clean dependency management
 * **Checkbox Control** - Choose between automatic or manual toggle behavior with `autoToggle`
 * **Restriction System** - Conditionally show/hide items or entire menus using `isRestricted`
 * **Smart Menu Management** - Automatic submenu closing when parent items become disabled or invisible

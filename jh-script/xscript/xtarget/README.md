@@ -31,10 +31,12 @@ _All menu operations are fully protected via **pcall**, ensuring that unexpected
 * **Flexible Item System** - Support for basic items, checkboxes, separators, and nested submenus
 * **Real-time Updates** - `toLoop` function allows items to update dynamically without closing the menu
 * **Event Handling** - Full support for `onRelease`, `onHoverIn`, `onHoverOut`, `onCheckedChanged` with automatic error protection
-* **Dynamic Modifications** - Change item properties on-the-fly using `setText`, `setChecked`, `setVisible`, `setDisabled`
+* **Dynamic Modifications** - Change item properties on-the-fly using `setText`, `setChecked`, `setVisible`, `setDisabled`, `setClickable`
 * **Item Identification** - Find items by `customIdentifier` or UUID for advanced menu manipulation
 * **Adaptive Menu Width** - Menu width automatically adjusts based on content length
 * **Checkbox Control** - Choose between automatic or manual toggle behavior with `autoToggle`
+* **Clickable Control** - Control item clickability with `clickable` property (non-clickable items can still be hovered)
+* **Visual State Priority** - Smart rendering system with priority: disabled > not clickable > clickable
 * **Restriction System** - Conditionally show/hide items or entire menus using `isRestricted`
 * **Smart Menu Management** - Automatic submenu closing when parent items become disabled or invisible
 * **Close All Support** - `closeOnClick` option closes all menus including submenus

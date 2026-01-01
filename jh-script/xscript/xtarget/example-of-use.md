@@ -243,3 +243,81 @@ Xtarget.register(function(menuManager, staticRaycastResult, menuType)
     })
 end)
 ```
+
+***
+
+## Using Clickable Property
+
+The `clickable` property allows you to make items non-clickable while still allowing hover interactions. This is useful for display-only items or items that need to be unlocked.
+
+**Visual Priority:** The rendering system follows this priority:
+1. If `disabled` → `textDisabled` color + normal background
+2. If not `disabled` AND `not clickable` → `textClickable` color + normal background
+3. If `clickable` (and not disabled) → normal text color + normal/hovered background
+
+```lua
+Xtarget.register(function(menuManager, staticRaycastResult, menuType)
+    -- Display-only item (non-clickable but can be hovered)
+    menuManager().addBasicItem({
+        text = 'Information (hover to see details)',
+        clickable = false,
+        onHoverIn = function(item)
+            print('This item shows information but cannot be clicked')
+        end
+    })
+    
+    -- Locked item that becomes clickable when condition is met
+    menuManager().addBasicItem({
+        text = 'Locked Feature',
+        customIdentifier = 'locked_feature',
+        clickable = false,
+        onRelease = function(item)
+            print('This should not be called if clickable is false')
+        end
+    })
+    
+    -- Unlock button
+    menuManager().addBasicItem({
+        text = 'Unlock Feature',
+        onRelease = function(item)
+            local lockedItem = menuManager().getItemByCustomIdentifier('locked_feature')
+            if lockedItem then
+                lockedItem.setClickable(true)
+                lockedItem.setText('Unlocked Feature')
+            end
+        end
+    })
+end)
+```
+
+***
+
+## Item State Priority
+
+Items follow a visual priority system based on their state:
+
+```lua
+Xtarget.register(function(menuManager, staticRaycastResult, menuType)
+    -- Disabled item (highest priority)
+    menuManager().addBasicItem({
+        text = 'Disabled Item',
+        disabled = true,
+        -- Will show: textDisabled color + normal background
+    })
+    
+    -- Non-clickable item (medium priority)
+    menuManager().addBasicItem({
+        text = 'Non-clickable Item',
+        clickable = false,
+        -- Will show: textClickable color + normal background
+        -- Can still be hovered and trigger onHoverIn/onHoverOut
+    })
+    
+    -- Normal clickable item (lowest priority, but active)
+    menuManager().addBasicItem({
+        text = 'Clickable Item',
+        clickable = true,  -- default
+        -- Will show: normal text color + normal/hovered background
+    })
+end)
+```

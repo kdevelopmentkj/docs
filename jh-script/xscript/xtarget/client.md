@@ -70,6 +70,7 @@ menuManager().addBasicItem(options)
   * closeOnClick: `boolean` (optional)
   * visible: `boolean` (optional, default: true)
   * disabled: `boolean` (optional, default: false)
+  * clickable: `boolean` (optional, default: true) - If false, item cannot be clicked but can still be hovered
   * toLoop: `function` (optional) - Called every frame to update the item
   * onRelease: `function` (optional) - Called when item is clicked
   * onHoverIn: `function` (optional) - Called when mouse hovers over item
@@ -91,6 +92,7 @@ menuManager().addCheckBoxItem(options)
   * closeOnClick: `boolean` (optional)
   * visible: `boolean` (optional, default: true)
   * disabled: `boolean` (optional, default: false)
+  * clickable: `boolean` (optional, default: true) - If false, item cannot be clicked but can still be hovered
   * toLoop: `function` (optional) - Called every frame to update the item
   * onCheckedChanged: `function` (optional) - Called when checkbox state changes
   * onRelease: `function` (optional)
@@ -119,6 +121,7 @@ menuManager().addSubMenu(options)
   * customIdentifier: `string` (optional)
   * visible: `boolean` (optional, default: true)
   * disabled: `boolean` (optional, default: false)
+  * clickable: `boolean` (optional, default: true) - If false, submenu cannot be opened but can still be hovered
   * isRestricted: `function` (optional)
 * **return** subMenu: `UUID/table` - Submenu UUID to use with menuManager(subMenu)
 
@@ -216,10 +219,28 @@ item.setCloseOnClick(closeOnClick)
 ***
 
 ```lua
+item.setClickable(clickable)
+```
+
+* clickable: `boolean` - If false, item cannot be clicked but can still be hovered
+* **return** void
+
+***
+
+```lua
 item.setChecked(checked)  -- Checkbox items only
 ```
 
 * checked: `boolean`
+* **return** void
+
+***
+
+```lua
+item.setAutoToggle(autoToggle)  -- Checkbox items only
+```
+
+* autoToggle: `boolean` - Enable or disable automatic toggle behavior
 * **return** void
 
 ***
@@ -230,4 +251,6 @@ item.setChecked(checked)  -- Checkbox items only
 * UUID: `string` - Unique identifier of the item
 * disabled: `boolean` - Whether the item is disabled
 * visible: `boolean` - Whether the item is visible
+* clickable: `boolean` - Whether the item can be clicked
 * isChecked: `boolean` - Checkbox state (checkbox items only)
+* autoToggle: `boolean` - Auto toggle behavior (checkbox items only)

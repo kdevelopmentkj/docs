@@ -153,6 +153,16 @@ menuManager().closeMenu()
 
 ***
 
+```lua
+menuManager().refreshMenu()
+```
+
+* **return** void
+* Refreshes the current menu by synchronizing all items, recalculating menu width and positions
+* Useful when you modify item properties (text, checked state, etc.) and want to update the menu display
+
+***
+
 ## staticRaycastResult
 
 The staticRaycastResult table contains information about the raycast hit.

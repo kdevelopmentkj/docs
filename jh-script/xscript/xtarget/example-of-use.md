@@ -246,6 +246,54 @@ end)
 
 ***
 
+## Refreshing Menu
+
+You can refresh the menu to update the display after modifying item properties.
+
+```lua
+Xtarget.register(function(menuManager, staticRaycastResult, menuType)
+    -- Add a dynamic item
+    local counterItem = menuManager().addBasicItem({
+        text = "Counter: 0",
+        customIdentifier = "counter",
+        disabled = true
+    })
+    
+    -- Button to increment and refresh
+    menuManager().addBasicItem({
+        text = "Increment Counter",
+        onRelease = function(item)
+            local counter = menuManager().getItemByCustomIdentifier("counter")
+            if counter then
+                local current = tonumber(counter.text:match("%d+")) or 0
+                counter.setText("Counter: " .. (current + 1))
+                menuManager().refreshMenu()  -- Refresh to update display
+            end
+        end
+    })
+    
+    -- Button to toggle checkbox and refresh
+    local checkbox = menuManager().addCheckBoxItem({
+        text = "Feature Enabled",
+        isChecked = false,
+        customIdentifier = "feature_toggle"
+    })
+    
+    menuManager().addBasicItem({
+        text = "Toggle Feature",
+        onRelease = function(item)
+            local toggle = menuManager().getItemByCustomIdentifier("feature_toggle")
+            if toggle then
+                toggle.setChecked(not toggle.isChecked)
+                menuManager().refreshMenu()  -- Refresh to update checkbox display
+            end
+        end
+    })
+end)
+```
+
+***
+
 ## Using Clickable Property
 
 The `clickable` property allows you to make items non-clickable while still allowing hover interactions. This is useful for display-only items or items that need to be unlocked.

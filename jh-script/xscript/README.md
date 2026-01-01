@@ -14,6 +14,7 @@
 
 * :green\_circle: [Xgroups](xgroups/)
 * :green\_circle: [Xstates](xstates/)
+* :green\_circle: [Xtarget](xtarget/)
 * :orange\_circle: Xcars
 * :red\_circle: Xprops
 * :red\_circle: Xtime

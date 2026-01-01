@@ -1,3 +1,20 @@
+---
+layout:
+  width: default
+  title:
+    visible: true
+  description:
+    visible: true
+  tableOfContents:
+    visible: true
+  outline:
+    visible: true
+  pagination:
+    visible: true
+  metadata:
+    visible: true
+---
+
 # Xstates
 
 {% embed url="https://kdev-jh.tebex.io/package/xstates" %}
@@ -16,12 +33,12 @@
 
 * Changes are saved automatically after 1 second of inactivity
 * Rapid successive changes are batched together
-* Use <kbd>.set()</kbd> method if you need immediate save _(bypasses debounce)_
+* Use `.set()` method if you need immediate save _(bypasses debounce)_
 
 **Compatibility :**
 
 * 100% API compatible with native FiveM state bags
-* Drop-in replacement - just replace <kbd>GlobalState</kbd> with <kbd>Xstates.GlobalState</kbd>
+* Drop-in replacement - just replace `GlobalState` with `Xstates.GlobalState`
 * Works alongside native state bags (you can use both)
 
 </details>

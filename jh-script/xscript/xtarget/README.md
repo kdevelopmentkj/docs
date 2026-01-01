@@ -13,7 +13,6 @@ layout:
     visible: true
   metadata:
     visible: true
-hidden: true
 ---
 
 # Xtarget

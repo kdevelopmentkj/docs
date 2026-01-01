@@ -1,66 +1,58 @@
 ---
+layout:
+  width: default
+  title:
+    visible: true
+  description:
+    visible: true
+  tableOfContents:
+    visible: true
+  outline:
+    visible: true
+  pagination:
+    visible: true
+  metadata:
+    visible: true
 hidden: true
 ---
-
 
 # Xtarget
 
 {% embed url="https://kdev-jh.tebex.io/package/xtarget" %}
 
-**Xtarget** is an advanced targeting and menu system for FiveM that provides context-aware interaction menus through raycast detection. Designed to be flexible and powerful, it allows you to create dynamic menus that adapt to what players are looking at.
+**Xtarget** is a powerful and flexible context menu and targeting system for your FiveM servers. Designed to be performant, easy to integrate, and highly customizable, it allows you to create dynamic context menus that adapt based on what players are targeting.
 
-#### 🎯 Context-Aware Targeting
+_All menu operations are fully protected via **pcall**, ensuring that unexpected errors in user-defined callbacks never disrupt the execution flow. If an error occurs during menu creation, the system automatically **rolls back** any items created in that callback using instanceUUID, preventing corrupted menu states and ensuring data integrity._
 
-* **Automatic entity detection**: Detects vehicles, peds, players, objects, and coordinates
-* **Dynamic menu generation**: Menus are built based on what the player is targeting
-* **Type-based filtering**: Show or hide menu items based on target type
+> **"Why limit yourself to static menus when you can create dynamic, context-aware interactions? Xtarget: Intelligent menus that adapt to what you're targeting."**
 
-#### 🎨 Flexible Menu System
+#### ✨ Key Features
 
-* **Multiple item types**: Basic items, checkboxes, separators, and submenus
-* **Real-time updates**: Update item text and states dynamically with `toLoop`
-* **Item manipulation**: Get items by UUID or custom identifier for dynamic updates
-* **Event callbacks**: onRelease, onHoverIn, onHoverOut for full control
+* **Dynamic Menu Types** - Automatically detects and displays menus based on entity type (Vehicle, Ped, Player, Object, Networked, Coordinates, Void)
+* **Flexible Item System** - Support for basic items, checkboxes, separators, and nested submenus
+* **Real-time Updates** - `toLoop` function allows items to update dynamically without closing the menu
+* **Event Handling** - Full support for `onRelease`, `onHoverIn`, `onHoverOut`, `onCheckedChanged` with automatic error protection
+* **Dynamic Modifications** - Change item properties on-the-fly using `setText`, `setChecked`, `setVisible`, `setDisabled`
+* **Item Identification** - Find items by `customIdentifier` or UUID for advanced menu manipulation
+* **Adaptive Menu Width** - Menu width automatically adjusts based on content length
+* **Custom Require System** - Built-in module loader for clean dependency management
+* **Checkbox Control** - Choose between automatic or manual toggle behavior with `autoToggle`
+* **Restriction System** - Conditionally show/hide items or entire menus using `isRestricted`
+* **Smart Menu Management** - Automatic submenu closing when parent items become disabled or invisible
+* **Close All Support** - `closeOnClick` option closes all menus including submenus
 
-#### ⚡ Performance Optimized
+#### 🎯 Menu Types
 
-* **Efficient raycast system**: Optimized detection with configurable flags
-* **Smart menu building**: Menus are built only when needed
-* **Memory management**: Optional memory saving for frequently used items
-
-<details>
-
-<summary>🎮 Features</summary>
-
-**Menu System**
-
-* ✅ Basic menu items with custom callbacks
-* ✅ Checkbox items with auto/manual toggle modes
-* ✅ Separator items for menu organization
-* ✅ Submenus with unlimited nesting depth
-* ✅ Real-time item updates with `toLoop` function
-
-**Targeting System**
-
-* ✅ Vehicle detection and interactions
-* ✅ Ped/NPC detection and interactions
-* ✅ Player detection and interactions
-* ✅ Object detection and interactions
-* ✅ Coordinate-based interactions (ground, walls)
-* ✅ Networked entity support
-
-**Item Management**
-
-* ✅ Get items by UUID
-* ✅ Get items by custom identifier
-* ✅ Dynamic text updates
-* ✅ Dynamic visibility/disabled state
-* ✅ Checkbox state management
-
-</details>
+* **Vehicle** - Displayed when targeting vehicles
+* **Ped** - Displayed when targeting NPCs (non-players)
+* **Player** - Displayed when targeting other players
+* **Object** - Displayed when targeting objects/props
+* **Networked** - Displayed when targeting networked entities
+* **Coord** - Displayed when targeting ground/walls (coordinates)
+* **Void** - Displayed when not targeting anything specific
 
 ***
 
-**Dependence :**
+**Dependencies :**
 
-* onesync
+* None - Standalone system

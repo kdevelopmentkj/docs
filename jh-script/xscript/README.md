@@ -26,7 +26,7 @@
 
 ***
 
-to understand the color codes of the development stages :
+**To understand the color codes of the development stages :**
 
 * :green\_circle: `--->` _Development completed and script available_
 * :orange\_circle: `--->` _Development in progress or script in testing and not available_

@@ -11,12 +11,12 @@ Xgroups.hasGlobal(source, options)
 ```
 
 * source: `number`
-* options: <kbd>table</kbd>
-  * groupName: <kbd>string</kbd> (optionnel) AUTO Check hasGroup() if not gradeName
-  * gradeName: <kbd>string</kbd> (optionnel) AUTO Check hasGradeByGroup() if gName and gName
-  * permission: **perm** <kbd>string</kbd> (optionnel) AUTO Check hasPermission()
-  * duty: **groupName** <kbd>string</kbd> (optionnel) AUTO Check isDuty()
-  * bypass: <kbd>boolean</kbd> (optionnel) AUTO Check hasBypass()
+* options: `table`
+  * groupName: `string` (optionnel) AUTO Check hasGroup() if not gradeName
+  * gradeName: `string` (optionnel) AUTO Check hasGradeByGroup() if gName and gName
+  * permission: **perm** `string` (optionnel) AUTO Check hasPermission()
+  * duty: **groupName** `string` (optionnel) AUTO Check isDuty()
+  * bypass: `boolean` (optionnel) AUTO Check hasBypass()
 * **return** hasaccess: `boolean`
 
 ***
@@ -74,8 +74,8 @@ Xgroups.isDuty(source)
 Xgroups.setDuty(source, groupName, duty)
 ```
 
-* source: `number`&#x20;
-* groupName: `string`&#x20;
+* source: `number`
+* groupName: `string`
 * duty: `boolean`
 * **return** edited: `boolean`
 
@@ -86,7 +86,7 @@ Xgroups.getPlayerGroups(source)
 ```
 
 * source: `number`
-* **return** groups\_list: `table`&#x20;
+* **return** groups\_list: `table`
 
 ***
 

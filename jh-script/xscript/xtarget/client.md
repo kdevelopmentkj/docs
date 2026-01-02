@@ -179,9 +179,15 @@ When an event (onRelease, onHoverIn, etc.) is triggered on any item in the group
 The staticRaycastResult table contains information about the raycast hit.
 
 * hit: `boolean` - Whether the raycast hit something
-* hitEntity: `number` - Entity handle that was hit (or 0)
+* hitEntity: `number` - Entity handle that was hit (or 0 if nothing)
 * hitCoords: `vector3` - Coordinates where the raycast hit
-* hitType: `number` - Type of entity hit (0 = nothing, 1 = entity, 2 = ped, 3 = vehicle, etc.)
+* hitDistanceByCamera: `number` - Distance between the camera and the hit point
+* hitDistanceByPlayer: `number` - Distance between the player and the hit point
+* hitHeading: `number` - Heading of the hit entity (0 if no entity)
+* hitVelocity: `vector3` - Velocity of the hit entity (vec3(0,0,0) if no entity)
+* hitType: `number` - Type of entity hit (0 = nothing, 1 = ped, 2 = vehicle, 3 = object)
+* hitSurface: `vector3` - Surface normal at the hit point
+* hitMaterial: `number` - Material hash at the hit point
 
 ***
 

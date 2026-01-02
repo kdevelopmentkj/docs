@@ -194,7 +194,7 @@ The menuType table contains boolean flags indicating what type of target was det
 * Player: `boolean` - True if targeting a player
 * Object: `boolean` - True if targeting an object
 * Networked: `boolean` - True if targeting a networked entity
-* coord: `boolean` - True if targeting coordinates (ground, wall)
+* Coord: `boolean` - True if targeting coordinates (ground, wall)
 * Void: `boolean` - True if not targeting anything
 
 ***

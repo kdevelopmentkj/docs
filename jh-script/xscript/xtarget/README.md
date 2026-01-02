@@ -58,4 +58,4 @@ _All menu operations are fully protected via **pcall**, ensuring that unexpected
 
 **Dependencies :**
 
-* None - Standalone system
+* None - Standalone system (ox_lib if use oc_target integration)

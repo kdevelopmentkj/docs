@@ -65,12 +65,12 @@ menuManager().addBasicItem(options)
 ```
 
 * options: `table`
-  * text: `string`
+  * text: `string` or `function` - Static text or function returning text (for dynamic refresh)
   * customIdentifier: `string` (optional)
   * closeOnClick: `boolean` (optional)
-  * visible: `boolean` (optional, default: true)
-  * disabled: `boolean` (optional, default: false)
-  * clickable: `boolean` (optional, default: true) - If false, item cannot be clicked but can still be hovered
+  * visible: `boolean` or `function` (optional, default: true) - Static or function returning boolean
+  * disabled: `boolean` or `function` (optional, default: false) - Static or function returning boolean
+  * clickable: `boolean` or `function` (optional, default: true) - Static or function returning boolean. If false, item cannot be clicked but can still be hovered
   * toLoop: `function` (optional) - Called every frame to update the item
   * onRelease: `function` (optional) - Called when item is clicked
   * onHoverIn: `function` (optional) - Called when mouse hovers over item
@@ -85,14 +85,14 @@ menuManager().addCheckBoxItem(options)
 ```
 
 * options: `table`
-  * text: `string`
+  * text: `string` or `function` - Static text or function returning text (for dynamic refresh)
   * isChecked: `boolean`
   * autoToggle: `boolean` (optional, default: true) - If false, you must manually toggle with setChecked()
   * customIdentifier: `string` (optional)
   * closeOnClick: `boolean` (optional)
-  * visible: `boolean` (optional, default: true)
-  * disabled: `boolean` (optional, default: false)
-  * clickable: `boolean` (optional, default: true) - If false, item cannot be clicked but can still be hovered
+  * visible: `boolean` or `function` (optional, default: true) - Static or function returning boolean
+  * disabled: `boolean` or `function` (optional, default: false) - Static or function returning boolean
+  * clickable: `boolean` or `function` (optional, default: true) - Static or function returning boolean. If false, item cannot be clicked but can still be hovered
   * toLoop: `function` (optional) - Called every frame to update the item
   * onCheckedChanged: `function` (optional) - Called when checkbox state changes
   * onRelease: `function` (optional)
@@ -117,11 +117,11 @@ menuManager().addSubMenu(options)
 ```
 
 * options: `table`
-  * text: `string`
+  * text: `string` or `function` - Static text or function returning text (for dynamic refresh)
   * customIdentifier: `string` (optional)
-  * visible: `boolean` (optional, default: true)
-  * disabled: `boolean` (optional, default: false)
-  * clickable: `boolean` (optional, default: true) - If false, submenu cannot be opened but can still be hovered
+  * visible: `boolean` or `function` (optional, default: true) - Static or function returning boolean
+  * disabled: `boolean` or `function` (optional, default: false) - Static or function returning boolean
+  * clickable: `boolean` or `function` (optional, default: true) - Static or function returning boolean. If false, submenu cannot be opened but can still be hovered
   * isRestricted: `function` (optional)
 * **return** subMenu: `UUID/table` - Submenu UUID to use with menuManager(subMenu)
 
@@ -160,6 +160,17 @@ menuManager().refreshMenu()
 * **return** void
 * Refreshes the current menu by synchronizing all items, recalculating menu width and positions
 * Useful when you modify item properties (text, checked state, etc.) and want to update the menu display
+
+***
+
+```lua
+menuManager().addRefresher(uuids)
+```
+
+* uuids: `table` - Array of item UUIDs to group together for partial refresh
+* **return** groupUUID: `string` - Unique identifier for the refresh group
+
+When an event (onRelease, onHoverIn, etc.) is triggered on any item in the group, all items in the group will have their functional properties (text, visible, disabled, clickable) re-evaluated automatically. Only the items in the group are refreshed, not the entire menu.
 
 ***
 
@@ -259,8 +270,9 @@ item.setAutoToggle(autoToggle)  -- Checkbox items only
 
 * text: `string` - Current text of the item
 * UUID: `string` - Unique identifier of the item
+* parentUUID: `string` - UUID of the parent menu/submenu
 * disabled: `boolean` - Whether the item is disabled
 * visible: `boolean` - Whether the item is visible
 * clickable: `boolean` - Whether the item can be clicked
-* isChecked: `boolean` - Checkbox state (checkbox items only)
+* checked: `boolean` - Checkbox state (checkbox items only)
 * autoToggle: `boolean` - Auto toggle behavior (checkbox items only)

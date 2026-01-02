@@ -132,7 +132,7 @@ Xtarget.register(function(menuManager, staticRaycastResult, menuType)
         onRelease = function(item)
             local target = menuManager().getItemByCustomIdentifier('checkbox_target')
             if target then
-                target.setChecked(not target.isChecked)
+                target.setChecked(not target.checked)
             end
         end
     })
@@ -284,7 +284,7 @@ Xtarget.register(function(menuManager, staticRaycastResult, menuType)
         onRelease = function(item)
             local toggle = menuManager().getItemByCustomIdentifier("feature_toggle")
             if toggle then
-                toggle.setChecked(not toggle.isChecked)
+                toggle.setChecked(not toggle.checked)
                 menuManager().refreshMenu()  -- Refresh to update checkbox display
             end
         end
@@ -367,5 +367,175 @@ Xtarget.register(function(menuManager, staticRaycastResult, menuType)
         clickable = true,  -- default
         -- Will show: normal text color + normal/hovered background
     })
+end)
+```
+
+***
+
+## Refresh Groups with Dynamic Properties
+
+Refresh groups allow you to define items that automatically update when any item in the group triggers an event (onRelease, onHoverIn, etc.). Use functions instead of static values for properties that need to be re-evaluated.
+
+```lua
+Xtarget.register(function(menuManager, staticRaycastResult, menuType)
+    if not menuType.Vehicle then return end
+    
+    local vehicle = staticRaycastResult.hitEntity
+    
+    -- Item with dynamic text (function)
+    local toggleEngineUUID = menuManager().addBasicItem({
+        text = function() 
+            return GetIsVehicleEngineRunning(vehicle) and "Turn Off Engine" or "Turn On Engine" 
+        end,
+        onRelease = function(item)
+            local running = GetIsVehicleEngineRunning(vehicle)
+            SetVehicleEngineOn(vehicle, not running, true, false)
+        end,
+    })
+    
+    -- Item with dynamic visibility (function)
+    local lockDoorsUUID = menuManager().addBasicItem({
+        text = "Lock Doors",
+        visible = function() return GetVehicleDoorLockStatus(vehicle) == 1 end,
+        onRelease = function(item)
+            SetVehicleDoorsLocked(vehicle, 2)
+        end,
+    })
+    
+    local unlockDoorsUUID = menuManager().addBasicItem({
+        text = "Unlock Doors",
+        visible = function() return GetVehicleDoorLockStatus(vehicle) ~= 1 end,
+        onRelease = function(item)
+            SetVehicleDoorsLocked(vehicle, 1)
+        end,
+    })
+    
+    -- Status item (non-clickable, just displays info)
+    local statusUUID = menuManager().addBasicItem({
+        text = function()
+            local locked = GetVehicleDoorLockStatus(vehicle) ~= 1
+            local engine = GetIsVehicleEngineRunning(vehicle)
+            return ("Status: %s | %s"):format(
+                engine and "Engine ON" or "Engine OFF",
+                locked and "Locked" or "Unlocked"
+            )
+        end,
+        clickable = false,
+    })
+    
+    -- Group all items together - when any item triggers an event,
+    -- all items in the group will have their functions re-evaluated
+    menuManager().addRefresher({toggleEngineUUID, lockDoorsUUID, unlockDoorsUUID, statusUUID})
+end)
+```
+
+***
+
+## Vehicle Controls with Refresh Group
+
+```lua
+Xtarget.register(function(menuManager, staticRaycastResult, menuType)
+    if not menuType.Vehicle then return end
+    
+    local vehicle = staticRaycastResult.hitEntity
+    local controlsMenu = menuManager().addSubMenu({ text = "Vehicle Controls" })
+    
+    -- Toggle headlights
+    local lightsUUID = menuManager(controlsMenu).addBasicItem({
+        text = function() 
+            local lightsOn = GetVehicleLightsState(vehicle)
+            return lightsOn and "Turn Off Lights" or "Turn On Lights"
+        end,
+        onRelease = function(item)
+            local lightsOn = GetVehicleLightsState(vehicle)
+            SetVehicleLights(vehicle, lightsOn and 1 or 3)
+        end,
+    })
+    
+    -- Toggle neon (only visible if vehicle has neons)
+    local neonUUID = menuManager(controlsMenu).addBasicItem({
+        text = function()
+            local neonOn = IsVehicleNeonLightEnabled(vehicle, 0)
+            return neonOn and "Disable Neons" or "Enable Neons"
+        end,
+        visible = function() 
+            return IsVehicleNeonLightEnabled(vehicle, 0) or IsVehicleNeonLightEnabled(vehicle, 1)
+                or IsVehicleNeonLightEnabled(vehicle, 2) or IsVehicleNeonLightEnabled(vehicle, 3)
+                or GetVehicleMod(vehicle, 22) ~= -1  -- Has neon mod installed
+        end,
+        onRelease = function(item)
+            local neonOn = IsVehicleNeonLightEnabled(vehicle, 0)
+            for i = 0, 3 do
+                SetVehicleNeonLightEnabled(vehicle, i, not neonOn)
+            end
+        end,
+    })
+    
+    -- Vehicle info display
+    local infoUUID = menuManager(controlsMenu).addBasicItem({ 
+        text = function() 
+            local health = GetVehicleEngineHealth(vehicle)
+            local speed = GetEntitySpeed(vehicle) * 3.6  -- Convert to km/h
+            return ("Health: %.0f | Speed: %.0f km/h"):format(health, speed)
+        end, 
+        clickable = false 
+    })
+    
+    -- Link items together for partial refresh
+    menuManager().addRefresher({lightsUUID, neonUUID, infoUUID})
+end)
+```
+
+***
+
+## Ped Actions with Refresh Group
+
+```lua
+Xtarget.register(function(menuManager, staticRaycastResult, menuType)
+    if not menuType.Ped then return end
+    if menuType.Player then return end  -- Exclude players
+    
+    local ped = staticRaycastResult.hitEntity
+    
+    -- Follow/Stop following toggle
+    local followUUID = menuManager().addBasicItem({
+        text = function()
+            local isFollowing = IsPedInCombat(ped, PlayerPedId())
+            return isFollowing and "Stop Following" or "Follow Me"
+        end,
+        onRelease = function(item)
+            local playerPed = PlayerPedId()
+            TaskFollowToOffsetOfEntity(ped, playerPed, 0.0, -1.5, 0.0, 5.0, -1, 1.5, true)
+        end,
+    })
+    
+    -- Ped status display
+    local statusUUID = menuManager().addBasicItem({
+        text = function()
+            local health = GetEntityHealth(ped) - 100
+            local maxHealth = GetEntityMaxHealth(ped) - 100
+            local isDead = IsEntityDead(ped)
+            if isDead then
+                return "Status: Dead"
+            end
+            return ("Health: %d/%d"):format(health, maxHealth)
+        end,
+        clickable = false,
+    })
+    
+    -- Heal button (only visible if ped is injured)
+    local healUUID = menuManager().addBasicItem({
+        text = "Heal Ped",
+        visible = function()
+            local health = GetEntityHealth(ped)
+            local maxHealth = GetEntityMaxHealth(ped)
+            return health < maxHealth and not IsEntityDead(ped)
+        end,
+        onRelease = function(item)
+            SetEntityHealth(ped, GetEntityMaxHealth(ped))
+        end,
+    })
+    
+    menuManager().addRefresher({followUUID, statusUUID, healUUID})
 end)
 ```

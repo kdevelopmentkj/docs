@@ -32,6 +32,8 @@ _All menu operations are fully protected via **pcall**, ensuring that unexpected
 * **Real-time Updates** - `toLoop` function allows items to update dynamically without closing the menu
 * **Event Handling** - Full support for `onRelease`, `onHoverIn`, `onHoverOut`, `onCheckedChanged` with automatic error protection
 * **Dynamic Modifications** - Change item properties on-the-fly using `setText`, `setChecked`, `setVisible`, `setDisabled`, `setClickable`
+* **Functional Properties** - Use functions instead of static values for `text`, `visible`, `disabled`, `clickable` to enable dynamic re-evaluation
+* **Refresh Groups** - Group items with `addRefresher()` for automatic partial refresh when any item in the group triggers an event
 * **Menu Refresh** - Refresh menu display after modifying items using `refreshMenu()` to update widths and positions
 * **Item Identification** - Find items by `customIdentifier` or UUID for advanced menu manipulation
 * **Adaptive Menu Width** - Menu width automatically adjusts based on content length

@@ -25,6 +25,8 @@ _All menu operations are fully protected via **pcall**, ensuring that unexpected
 
 > **"Why limit yourself to static menus when you can create dynamic, context-aware interactions? Xtarget: Intelligent menus that adapt to what you're targeting."**
 
+{% embed url="https://www.youtube.com/watch?v=IPNHLeVytJQ" %}
+
 #### ✨ Key Features
 
 * **Dynamic Menu Types** - Automatically detects and displays menus based on entity type (Vehicle, Ped, Player, Object, Networked, Coordinates, Void)

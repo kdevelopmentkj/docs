@@ -26,6 +26,9 @@
     * [Server](jh-script/other-script/jh_persistance/server.md)
   * [JH\_Printer](jh-script/other-script/jh_printer/README.md)
     * [Client](jh-script/other-script/jh_printer/client.md)
+  * [Container\_Robbery](jh-script/other-script/container_robbery/README.md)
+    * [Configuration](jh-script/other-script/container_robbery/configuration.md)
+    * [Server](jh-script/other-script/container_robbery/server.md)
 
 ## Kdev Script
 

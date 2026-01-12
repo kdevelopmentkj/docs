@@ -1,4 +1,4 @@
-# Client
+# Shared
 
 ## Player State
 
@@ -12,7 +12,7 @@ LocalPlayer.state.isOnRobberyContainer
 * **Description**: Indicates whether the player is currently performing a container robbery animation
 * **Values**:
   * `true` - Player is actively robbing a container (animation in progress)
-  * `false` - Player is not robbing a container
+  * `false` or `nil`  - Player is not robbing a container
 
 **Usage example:**
 

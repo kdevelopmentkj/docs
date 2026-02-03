@@ -9,7 +9,7 @@ hidden: true
 
 ***
 
-{% embed url="https://kdev-jh.tebex.io/package/jh-printer" %}
+{% embed url="https://kdev-jh.tebex.io/package/jh-housing" %}
 
 {% embed url="https://youtu.be/iMVV3_G84nA" %}
 

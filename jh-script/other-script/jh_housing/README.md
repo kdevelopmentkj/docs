@@ -11,7 +11,7 @@ hidden: true
 
 {% embed url="https://kdev-jh.tebex.io/package/jh-printer" %}
 
-{% embed url="https://youtu.be/uBUVKFB2gfQ" %}
+{% embed url="https://youtu.be/iMVV3_G84nA" %}
 
 ***
 

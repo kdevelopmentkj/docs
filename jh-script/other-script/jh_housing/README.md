@@ -14,5 +14,9 @@ hidden: true
 **Dependence :**&#x20;
 
 * ox\_inventory
-* ox\_target (optional)
+* ox\_target (optional if use Xtarget)
+* ox\_lib
+* es\_extended
+* oxmysql
+
 

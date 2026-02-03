@@ -26,6 +26,8 @@
     * [Server](jh-script/other-script/jh_persistance/server.md)
   * [JH\_Printer](jh-script/other-script/jh_printer/README.md)
     * [Client](jh-script/other-script/jh_printer/client.md)
+  * [JH\_Housing](jh-script/other-script/jh_housing/README.md)
+    * [Client](jh-script/other-script/jh_housing/client.md)
   * [Container\_Robbery](jh-script/other-script/container_robbery/README.md)
     * [Configuration](jh-script/other-script/container_robbery/configuration.md)
     * [Shared](jh-script/other-script/container_robbery/shared.md)

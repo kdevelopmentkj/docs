@@ -11,6 +11,7 @@
 * :green\_circle: [JH\_Persistance](jh_persistance/)
 * :green\_circle: [JH\_Printer](jh_printer/)
 * :green\_circle: [JH\_Housing](jh_housing/)
+* :green\_circle: [JH\_GameUI](jh_gameui/)
 * :green\_circle: [Container\_Robbery](container_robbery/)
 
 </details>

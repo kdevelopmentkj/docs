@@ -1,20 +1,3 @@
----
-layout:
-  width: default
-  title:
-    visible: true
-  description:
-    visible: true
-  tableOfContents:
-    visible: true
-  outline:
-    visible: true
-  pagination:
-    visible: true
-  metadata:
-    visible: true
----
-
 # Xgroups
 
 {% embed url="https://kdev-jh.tebex.io/package/xgroups" %}
@@ -38,13 +21,9 @@ layout:
 * **Wildcards**: Use `*` to grant all permissions
 * **Prefix wildcards**: Use `prefix.*` to grant access to all permissions under a prefix
 * **Group wildcards**: Use `group:*` to grant all permissions of a group
-* **Specific permissions**: Precise control with `group:permission.key` &#x20;
-
-
+* **Specific permissions**: Precise control with `group:permission.key`
 
 _All operations in the system are fully **typesafe** and protected using **pcall**, ensuring that unexpected issues never break the execution flow. If any error occurs during the creation or modification of groups, ranks, permissions, or any other element, the system automatically **rolls back** to the last valid save. This guarantees data integrity and prevents corrupted configurations, even in the event of unforeseen failures._
-
-
 
 <details>
 
@@ -74,7 +53,7 @@ _All operations in the system are fully **typesafe** and protected using **pcall
 
 **Optimised**
 
-* ✅ client and server 0.00ms&#x20;
+* ✅ client and server 0.00ms
 * ✅ hasPermission returns \~0.30ms (tested with 1000 groups × 1000 ranks × 1000 permissions)
 
 </details>

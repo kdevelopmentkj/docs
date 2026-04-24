@@ -31,7 +31,6 @@
     * [Configuration](jh-script/other-script/container_robbery/configuration.md)
     * [Shared](jh-script/other-script/container_robbery/shared.md)
     * [Server](jh-script/other-script/container_robbery/server.md)
-  * [JH\_GameUI](jh-script/other-script/container_robbery-1.md)
 
 ## Kdev Script
 

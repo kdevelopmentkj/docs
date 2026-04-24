@@ -1,23 +1,6 @@
----
-layout:
-  width: default
-  title:
-    visible: true
-  description:
-    visible: true
-  tableOfContents:
-    visible: true
-  outline:
-    visible: true
-  pagination:
-    visible: true
-  metadata:
-    visible: true
----
-
 # Client
 
-<p align="center"><strong>Available only if XcarsConfig.onlyServerSideControl = false</strong> </p>
+<p align="center"><strong>Available only if XcarsConfig.onlyServerSideControl = false</strong></p>
 
 ***
 
@@ -32,8 +15,6 @@ Xcars.updateVehicle(entityId, options)
   * freshUpdate: <kbd>boolean</kbd> (optionnel)
   * vehicleType: <kbd>string</kbd> (optionnel)
   * enable: <kbd>boolean</kbd> (optionnel)
-
-
 
 ***
 

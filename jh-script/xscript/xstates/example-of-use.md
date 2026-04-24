@@ -1,24 +1,7 @@
----
-layout:
-  width: default
-  title:
-    visible: true
-  description:
-    visible: true
-  tableOfContents:
-    visible: true
-  outline:
-    visible: true
-  pagination:
-    visible: true
-  metadata:
-    visible: true
----
-
 # Example of use
 
 _**This is just one example !**_\
-_**In itself, Xstates works exactly like Fivem's States bag! So you can do exactly the same thing, but with simplifications and optimization.**_
+&#xNAN;_**In itself, Xstates works exactly like Fivem's States bag! So you can do exactly the same thing, but with simplifications and optimization.**_
 
 ***
 

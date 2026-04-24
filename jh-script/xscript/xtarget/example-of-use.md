@@ -1,20 +1,3 @@
----
-layout:
-  width: default
-  title:
-    visible: true
-  description:
-    visible: true
-  tableOfContents:
-    visible: true
-  outline:
-    visible: true
-  pagination:
-    visible: true
-  metadata:
-    visible: true
----
-
 # Example of use
 
 ***
@@ -299,6 +282,7 @@ end)
 The `clickable` property allows you to make items non-clickable while still allowing hover interactions. This is useful for display-only items or items that need to be unlocked.
 
 **Visual Priority:** The rendering system follows this priority:
+
 1. If `disabled` → `textDisabled` color + normal background
 2. If not `disabled` AND `not clickable` → `textClickable` color + normal background
 3. If `clickable` (and not disabled) → normal text color + normal/hovered background

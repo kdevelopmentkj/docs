@@ -1,20 +1,6 @@
 ---
 description: 'Here’s a list of currently available scripts in the K Scripts series:'
 hidden: true
-layout:
-  width: default
-  title:
-    visible: true
-  description:
-    visible: true
-  tableOfContents:
-    visible: true
-  outline:
-    visible: true
-  pagination:
-    visible: true
-  metadata:
-    visible: true
 ---
 
 # K Scripts Collection

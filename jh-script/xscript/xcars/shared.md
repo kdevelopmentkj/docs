@@ -1,20 +1,3 @@
----
-layout:
-  width: default
-  title:
-    visible: true
-  description:
-    visible: true
-  tableOfContents:
-    visible: true
-  outline:
-    visible: true
-  pagination:
-    visible: true
-  metadata:
-    visible: true
----
-
 # Shared
 
 ***
@@ -25,8 +8,6 @@ Xcars.toJSON()
 
 * **return** <kbd>table</kbd> _(Protected table and not printable if not use toJSON)_
 
-
-
 ***
 
 ```lua
@@ -36,9 +17,7 @@ Xcars.onEvent(eventName, handler)
 (only shared if XcarsConfig.onlyServerSideEvents = false else only server)
 
 * eventName: <kbd>string</kbd> _(createVehicle, updateVehicle, deleteVehicle)_
-*   handler: <kbd>function</kbd>&#x20;
-
-
+*   handler: <kbd>function</kbd>
 
     ```lua
     Xcars.onEvent('createVehicle', function(newState)
@@ -50,4 +29,3 @@ Xcars.onEvent(eventName, handler)
     Xcars.onEvent('updateVehicle', function(lastState, newState)
     end)
     ```
-

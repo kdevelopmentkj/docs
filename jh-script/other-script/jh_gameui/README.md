@@ -1,8 +1,3 @@
----
-hidden: true
----
-
-
 # JH\_GameUI
 
 {% embed url="https://kdev-jh.tebex.io/package/jh-gameui" %}

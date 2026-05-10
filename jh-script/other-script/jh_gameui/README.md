@@ -34,4 +34,3 @@ Everything else is configured in-game by each player from the pause menu.
 **Dependence :**&#x20;
 
 * None — standalone system.
-* onesync (for state-bag waypoint sync + players-count).

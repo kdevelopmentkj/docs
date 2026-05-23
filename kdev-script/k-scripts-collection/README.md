@@ -1,6 +1,5 @@
 ---
 description: 'Here’s a list of currently available scripts in the K Scripts series:'
-hidden: true
 ---
 
 # K Scripts Collection

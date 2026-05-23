@@ -37,7 +37,6 @@
 
 ## Kdev Script
 
-* [No Script](kdev-script/no-script.md)
 * [K Scripts Collection](kdev-script/k-scripts-collection/README.md)
   * [KClothshop](kdev-script/k-scripts-collection/kclothing-shop/README.md)
     * [Installation](kdev-script/k-scripts-collection/kclothing-shop/installation.md)

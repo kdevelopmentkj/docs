@@ -94,7 +94,7 @@ At minimum, pass `title` **or** `description` — an empty notification is ignor
 
 ## Add a button to the map context menu
 
-Context-menu buttons are declared in `config.lua` under `Minimap.config.contextMenu.buttons`. They run **server-side-authorized** callbacks — `action` is only executed after `canAccess` passes again on click, so a client cannot spoof it.
+Context-menu buttons are declared in `config.lua` under `Minimap.config.contextMenu.buttons`. They run callbacks — `action` is only executed after `canAccess` passes again on click, so a client cannot spoof it.
 
 ```lua
 Minimap.config.contextMenu.buttons = {

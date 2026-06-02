@@ -18,7 +18,7 @@
 * **Custom pause-menu disconnect** — a `Quit` button that disconnects the player with a developer-supplied reason (driven by a state-bag hook server-side).
 * **Bigmap bindings** — press-hold (`Z` by default) AND optional toggle key, with `enforce.minimapOnlyInVehicle` / `enforce.bigmapOnlyInVehicle` admin policies.
 * **Notifications** — a styled NUI notification system. Trigger from any resource via `exports.JH_GameUI:notify({...})` (client) or `TriggerClientEvent('JH_GameUI:notify', src, {...})` (server). Look, position, opacity, scale and stacking are player-editable from the canvas editor.
-* **Map context menu** — right-click the bigmap to open a developer-defined context menu (teleport, set GPS, …). Each button declares server-side `canAccess(ctx)` / `action(ctx)` callbacks ; the action is re-authorized server-side on click (client cannot spoof it).
+* **Map context menu** — right-click the bigmap to open a developer-defined context menu (teleport, set GPS, …). Each button declares  `canAccess(ctx)` / `action(ctx)` callbacks ; the action is re-authorized on click (client cannot spoof it).
 * **Extra status bars** — optional hunger & thirst bars on the minimap, driven by `syncExtraStatus(hunger, thirst)`. Framework-agnostic (ESX / generic poll), wired from `config.lua`. OFF until the first call ; the player can hide them from the minimap edit cog.
 * **HUD force-hide** — `exports.JH_GameUI:setHudHidden(true)` lets any other resource hide the entire HUD (e.g. for cinematics, death scenes, driving tests).
 
@@ -34,6 +34,6 @@ Everything else is configured in-game by each player from the pause menu.
 
 ***
 
-**Dependence :**&#x20;
+**Dependence :**
 
 * None — standalone system.

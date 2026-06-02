@@ -64,6 +64,9 @@ All values below live under the shared global `Minimap.config`.
   * **`minimapOnlyInVehicle`** : `boolean`
     * `true` — Minimap is only rendered while the player is in a vehicle. Uses the same `vehicle:state` detection as the speedometer widget.
     * `false` — Minimap always visible (default: `false`)
+  * **`bigmapOnlyInVehicle`** : `boolean`
+    * `true` — The pause-menu big map is only available in a vehicle. On foot it is visually disabled (placeholder) and its map tools are hidden. Does **not** affect the bigmap keybinds (`bigmap` / `bigmapToggle`).
+    * `false` — Pause big map always available (default: `false`)
 
 ***
 
@@ -73,3 +76,34 @@ All values below live under the shared global `Minimap.config`.
   * **`maxBlipsPerInvite`** : `number` — Max blips per invite. Protects against oversized payloads (default: `50`)
   * **`maxPendingPerSender`** : `number` — Max simultaneous pending invites **from** the same sender. Prevents burst-spamming multiple targets during the `rateLimitMs` window by cycling through them (default: `3`)
   * **`maxPendingPerTarget`** : `number` — Max simultaneous pending invites **to** the same target. Anti collective-harassment : N senders can't pile modals on one player (default: `5`)
+
+***
+
+* **`contextMenu`** : `table` — Right-click context menu shown on the bigmap.
+  * **`buttons`** : `table` — Array of button definitions. Each entry :
+    * **`id`** : `string` _(required)_ — Unique key. On duplicate ids, the first one wins.
+    * **`label`** : `string` — Text shown in the menu entry.
+    * **`icon`** : `string` — [Lucide](https://lucide.dev/icons) icon name (e.g. `'map-pin'`). Unknown / missing name falls back to `'circle'`.
+    * **`order`** : `number` — Sort weight, ascending (optional, default: `0`).
+    * **`canAccess`** : `function(ctx) -> boolean` — Visibility predicate (optional). Missing = always visible. Crash = hidden.
+    * **`action`** : `function(ctx)` — Run on click (optional). Re-authorized server-side via `canAccess` before running.
+    * The `ctx` passed to both callbacks is `{ startPos = { x, y, z }, endPos = { x, y } }` — `startPos` is the player's current position, `endPos` is the clicked map point (2D ; sample the ground Z yourself if needed).
+
+***
+
+* **`notify`** : `table` — Defaults for the notification system (look / position / stacking are NUI-side and player-editable).
+  * **`defaultType`** : `string` — Type used when the caller omits it : `'info'` | `'success'` | `'warning'` | `'error'` (default: `'info'`)
+  * **`defaultDuration`** : `number` — Fallback duration (ms) when neither `duration` nor a per-type duration applies (default: `4000`)
+  * **`durations`** : `table` — Per-type default duration (ms) when the caller omits `duration`.
+    * `info` (default: `4000`), `success` (default: `3500`), `warning` (default: `5000`), `error` (default: `6000`)
+
+***
+
+* **`debug`** : `table`
+  * **`failFocusCommand`** : `string` — Console command (F8) that force-recovers NUI focus if the pause menu ever desyncs and traps the cursor. Run `/gameui_failFocus` (default: `'gameui_failFocus'`)
+  * **`wrapper_debug`** : `boolean` — Verbose logging for the native blip-wrapper pipeline (blip interception → NUI sync). Noisy — keep `false` in production (default: `false`)
+
+***
+
+* **Extra status bars (hunger & thirst)** — Defined at the bottom of `config.lua` (client only), **not** under `Minimap.config`. The minimap can show two extra bars : hunger (left, yellow) and thirst (right, blue), driven by the global function :
+  * **`syncExtraStatus(hunger, thirst)`** — `hunger` / `thirst` are numbers `0`–`100` (clamped, rounded). Deliberately **not** an export : only `config.lua` (same resource) can call it. The first call activates the bars and adds their on/off toggle to the minimap edit cog. Wire it to your framework's hunger/thirst system — `config.lua` ships commented examples for ESX (`esx_status:onTick`) and a generic poll.

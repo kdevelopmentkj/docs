@@ -60,3 +60,94 @@ exports.JH_GameUI:setHudHidden(false)
 ```
 
 The minimap, compass, clock, speedometer, player count and every custom blip disappear immediately. The player can still open the pause menu — the canvas editor displays a banner indicating that a script is force-hiding the HUD.
+
+***
+
+## Send a notification
+
+From **any client** resource via the export :
+
+```lua
+exports.JH_GameUI:notify({
+    title       = 'Garage',                 -- optional
+    description = 'Your vehicle is stored.', -- required (or title)
+    type        = 'success',                -- 'info' | 'success' | 'warning' | 'error'
+    duration    = 4000,                      -- optional, ms (else per-type default)
+    icon        = 'car',                     -- optional, Lucide name (overrides type icon)
+    iconColor   = '#22c55e',                 -- optional
+    id          = 'garage_store',            -- optional, replaces a notification with the same id
+})
+```
+
+From the **server**, target a player with the event :
+
+```lua
+TriggerClientEvent('JH_GameUI:notify', src, {
+    description = 'You received $500.',
+    type        = 'success',
+})
+```
+
+At minimum, pass `title` **or** `description` — an empty notification is ignored. The visual style, position, opacity, scale and stacking are owned by the NUI and edited by the player from the canvas editor.
+
+***
+
+## Add a button to the map context menu
+
+Context-menu buttons are declared in `config.lua` under `Minimap.config.contextMenu.buttons`. They run **server-side-authorized** callbacks — `action` is only executed after `canAccess` passes again on click, so a client cannot spoof it.
+
+```lua
+Minimap.config.contextMenu.buttons = {
+    {
+        id    = 'tp_here',
+        label = 'Teleport here',
+        icon  = 'map-pin',  -- https://lucide.dev/icons
+        order = 10,
+        canAccess = function(ctx)
+            -- e.g. restrict to admins:  return IsPlayerAdmin()
+            return true
+        end,
+        action = function(ctx)
+            -- endPos is 2D — sample the ground Z for the teleport:
+            local found, z = GetGroundZFor_3dCoord(ctx.endPos.x, ctx.endPos.y, 1000.0, false)
+            SetEntityCoords(PlayerPedId(), ctx.endPos.x, ctx.endPos.y, found and z or 100.0, false, false, false, false)
+        end,
+    },
+}
+```
+
+`ctx` is `{ startPos = { x, y, z }, endPos = { x, y } }` — `startPos` is the player's current position, `endPos` is the clicked point on the map.
+
+***
+
+## Show hunger & thirst bars
+
+JH\_GameUI can render two extra bars (hunger + thirst) on the minimap. They stay hidden until the global `syncExtraStatus(hunger, thirst)` function is called from `config.lua` (it is intentionally **not** an export — only the resource's own config can switch the bars on).
+
+**ESX (`esx_status`)** — wire it in `config.lua` :
+
+```lua
+AddEventHandler('esx_status:onTick', function(data)
+    local hunger, thirst = 100, 100
+    for _, s in ipairs(data) do
+        if     s.name == 'hunger' then hunger = s.percent
+        elseif s.name == 'thirst' then thirst = s.percent end
+    end
+    syncExtraStatus(hunger, thirst)
+end)
+```
+
+**Generic poll (any framework / statebag / export)** :
+
+```lua
+CreateThread(function()
+    while true do
+        Wait(1000)
+        local hunger = LocalPlayer.state.hunger or 100   -- replace source
+        local thirst = LocalPlayer.state.thirst or 100   -- replace source
+        syncExtraStatus(hunger, thirst)
+    end
+end)
+```
+
+Values are clamped to `0`–`100` and rounded. The first call activates the bars and adds their on/off toggle to the minimap edit cog — the player can hide them from there.

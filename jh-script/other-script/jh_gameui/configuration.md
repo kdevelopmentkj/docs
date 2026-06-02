@@ -60,7 +60,7 @@ All values below live under the shared global `Minimap.config`.
 
 ***
 
-* **`enforce`** : `table` — Server-side enforced policies. Cannot be overridden by the player (no corresponding toggle in the canvas editor).
+* **`enforce`** : `table` — Cannot be overridden by the player (no corresponding toggle in the canvas editor).
   * **`minimapOnlyInVehicle`** : `boolean`
     * `true` — Minimap is only rendered while the player is in a vehicle. Uses the same `vehicle:state` detection as the speedometer widget.
     * `false` — Minimap always visible (default: `false`)
@@ -86,7 +86,7 @@ All values below live under the shared global `Minimap.config`.
     * **`icon`** : `string` — [Lucide](https://lucide.dev/icons) icon name (e.g. `'map-pin'`). Unknown / missing name falls back to `'circle'`.
     * **`order`** : `number` — Sort weight, ascending (optional, default: `0`).
     * **`canAccess`** : `function(ctx) -> boolean` — Visibility predicate (optional). Missing = always visible. Crash = hidden.
-    * **`action`** : `function(ctx)` — Run on click (optional). Re-authorized server-side via `canAccess` before running.
+    * **`action`** : `function(ctx)` — Run on click (optional). Re-authorized via `canAccess` before running.
     * The `ctx` passed to both callbacks is `{ startPos = { x, y, z }, endPos = { x, y } }` — `startPos` is the player's current position, `endPos` is the clicked map point (2D ; sample the ground Z yourself if needed).
 
 ***

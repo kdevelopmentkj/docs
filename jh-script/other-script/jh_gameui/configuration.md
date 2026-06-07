@@ -32,6 +32,7 @@ All values below live under the shared global `Minimap.config`.
     * active: `number` (default: `1500`)
   * **`vehicle`** : `table` — Speedometer thread. Only exists **while** the player is in a vehicle (entry detected via `CEventNetworkPlayerEnteredVehicle`, exit detected by a lightweight watchdog). Covers speed, rpm, gear, fuel, engine health.
     * active: `number` (default: `100`)
+    * idle: `number` (default: `250`)
 
 ***
 

@@ -111,6 +111,114 @@ menuManager().addSubMenu(options)
 ***
 
 ```lua
+menuManager().addTitleItem(options)
+```
+
+* options: `table`
+  * text: `string` or `function` - Title text
+  * customIdentifier: `string` (optional)
+  * visible: `boolean` or `function` (optional, default: true)
+  * isRestricted: `function` (optional)
+* **return** uuid: `string` - Item UUID
+* Non-interactive header row, rendered with a centered title style.
+
+***
+
+```lua
+menuManager().addValueItem(options)
+```
+
+* options: `table`
+  * text: `string` or `function` - Label (left side)
+  * value: `string` or `number` - Value shown on the right side
+  * valueColor: `Color` (optional) - Colour of the value (see [Theme](theme.md))
+  * customIdentifier: `string` (optional)
+  * visible / disabled / clickable: `boolean` or `function` (optional)
+  * toLoop: `function` (optional)
+  * isRestricted: `function` (optional)
+* **return** uuid: `string` - Item UUID
+* Update the value at runtime with `item.setValue(value)`.
+
+***
+
+```lua
+menuManager().addProgressItem(options)
+```
+
+* options: `table`
+  * text: `string` or `function` - Label
+  * value: `number` - Progress amount (`0`–`100`)
+  * progressColor: `Color` (optional) - Fill colour (default: theme `colors.progress`)
+  * customIdentifier: `string` (optional)
+  * visible / disabled: `boolean` or `function` (optional)
+  * toLoop: `function` (optional)
+  * isRestricted: `function` (optional)
+* **return** uuid: `string` - Item UUID
+* Update the bar with `item.setValue(number)`.
+
+***
+
+```lua
+menuManager().addListItem(options)
+```
+
+A cyclic selector — the player cycles through `items` left/right.
+
+* options: `table`
+  * text: `string` or `function` - Label
+  * items: `table` - Array of values to cycle through
+  * index: `number` (optional, default: `1`) - Initially selected index
+  * onChange: `function(item, index, value)` (optional) - Called when the selection changes
+  * customIdentifier: `string` (optional)
+  * visible / disabled: `boolean` or `function` (optional)
+  * isRestricted: `function` (optional)
+* **return** uuid: `string` - Item UUID
+* Read/update via `item.items`, `item.index`, `item.setIndex(index)`.
+
+***
+
+```lua
+menuManager().addSliderItem(options)
+```
+
+* options: `table`
+  * text: `string` or `function` - Label
+  * min: `number` - Lower bound
+  * max: `number` - Upper bound
+  * step: `number` - Increment per cycle
+  * value: `number` (optional, default: `min`) - Initial value
+  * onChange: `function(item, value)` (optional) - Called when the value changes
+  * customIdentifier: `string` (optional)
+  * visible / disabled: `boolean` or `function` (optional)
+  * isRestricted: `function` (optional)
+* **return** uuid: `string` - Item UUID
+* Read/update via `item.value`, `item.min`, `item.max`, `item.step`, `item.setValue(value)`.
+
+***
+
+```lua
+menuManager().addPageListItem(options)
+```
+
+A paginated list — long lists are split into pages.
+
+* options: `table`
+  * text: `string` or `function` - Label / header
+  * items: `table` - Array of entries
+  * perPage: `number` (optional, default: `5`) - Entries per page
+  * page: `number` (optional, default: `1`) - Initial page
+  * selectable: `boolean` (optional, default: `false`) - If `true`, individual entries are clickable
+  * onPageChange: `function(item, page)` (optional) - Called when the page changes
+  * onSelect: `function(item, entry, index)` (optional) - Called when an entry is selected (requires `selectable = true`)
+  * customIdentifier: `string` (optional)
+  * visible / disabled: `boolean` or `function` (optional)
+  * isRestricted: `function` (optional)
+* **return** uuid: `string` - Item UUID
+* Read/update via `item.items`, `item.page`, `item.setPage(page)`.
+
+***
+
+```lua
 menuManager().getItemByCustomIdentifier(customIdentifier)
 ```
 
@@ -251,6 +359,33 @@ item.setAutoToggle(autoToggle)  -- Checkbox items only
 ```
 
 * autoToggle: `boolean` - Enable or disable automatic toggle behavior
+* **return** void
+
+***
+
+```lua
+item.setValue(value)  -- Value / Progress / Slider items only
+```
+
+* value: `string` or `number`
+* **return** void
+
+***
+
+```lua
+item.setIndex(index)  -- List items only
+```
+
+* index: `number` - New selected index
+* **return** void
+
+***
+
+```lua
+item.setPage(page)  -- PageList items only
+```
+
+* page: `number` - New page number
 * **return** void
 
 ***

@@ -523,3 +523,65 @@ Xtarget.register(function(menuManager, staticRaycastResult, menuType)
     menuManager().addRefresher({followUUID, statusUUID, healUUID})
 end)
 ```
+
+***
+
+## Title, Value, Progress, List, Slider & Page List Items
+
+```lua
+Xtarget.register(function(menuManager, staticRaycastResult, menuType)
+    if not menuType.Vehicle then return end
+    local vehicle = staticRaycastResult.hitEntity
+
+    -- Title : non-interactive header
+    menuManager().addTitleItem({ text = 'Vehicle tools' })
+
+    -- Value : label + value on the right (live updated)
+    menuManager().addValueItem({
+        text = 'Engine health',
+        value = math.floor(GetVehicleEngineHealth(vehicle)),
+        customIdentifier = 'engine_val',
+        toLoop = function(item)
+            item.setValue(math.floor(GetVehicleEngineHealth(vehicle)))
+        end,
+    })
+
+    -- Progress : 0–100 bar
+    menuManager().addProgressItem({
+        text = 'Fuel',
+        value = GetVehicleFuelLevel(vehicle),
+        customIdentifier = 'fuel_bar',
+        toLoop = function(item) item.setValue(GetVehicleFuelLevel(vehicle)) end,
+    })
+
+    -- List : cyclic selector
+    menuManager().addListItem({
+        text = 'Door',
+        items = { 'Front Left', 'Front Right', 'Rear Left', 'Rear Right' },
+        index = 1,
+        onChange = function(item, index, value)
+            print('Selected door:', value)
+        end,
+    })
+
+    -- Slider : min/max/step
+    menuManager().addSliderItem({
+        text = 'Window tint',
+        min = 0, max = 5, step = 1, value = 0,
+        onChange = function(item, value)
+            SetVehicleWindowTint(vehicle, value)
+        end,
+    })
+
+    -- Page list : paginated, selectable entries
+    menuManager().addPageListItem({
+        text = 'Liveries',
+        items = { 'Stock', 'Sport', 'Racing', 'Police', 'Custom 1', 'Custom 2' },
+        perPage = 3,
+        selectable = true,
+        onSelect = function(item, entry, index)
+            SetVehicleLivery(vehicle, index - 1)
+        end,
+    })
+end)
+```

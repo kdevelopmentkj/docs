@@ -4,6 +4,9 @@ The configuration file is located at `shared/config.lua` and can be modified dir
 
 **Available options :**
 
+* **`modeNUI`** : `boolean` — Render backend for the menu.
+  * `false` — Native GTA draw (default).
+  * `true` — Render the menu in HTML / NUI instead (styled by `Theme.renderer.nui`, see [Theme](theme.md)).
 * **`keyBind`** : `table`
   * key: `string` - Key to press to open the targeting menu (default: `'LMENU'`)
   * type: `string` - Input type (default: `'keyboard'`)

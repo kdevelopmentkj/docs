@@ -21,6 +21,7 @@
     * [Example of use](jh-script/xscript/xtarget/example-of-use.md)
     * [Client](jh-script/xscript/xtarget/client.md)
     * [Configuration](jh-script/xscript/xtarget/configuration.md)
+    * [Theme](jh-script/xscript/xtarget/theme.md)
 * [Other Script](jh-script/other-script/README.md)
   * [JH\_Persistance](jh-script/other-script/jh_persistance/README.md)
     * [Server](jh-script/other-script/jh_persistance/server.md)

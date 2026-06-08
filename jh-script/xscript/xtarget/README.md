@@ -13,7 +13,9 @@ _All menu operations are fully protected via **pcall**, ensuring that unexpected
 #### ✨ Key Features
 
 * **Dynamic Menu Types** - Automatically detects and displays menus based on entity type (Vehicle, Ped, Player, Object, Networked, Coordinates, Void)
-* **Flexible Item System** - Support for basic items, checkboxes, separators, and nested submenus
+* **Flexible Item System** - Support for basic items, checkboxes, separators, nested submenus, titles, values, progress bars, lists (cyclic selectors), sliders, and paginated page lists
+* **Two Render Backends** - Native GTA draw (default) or NUI web rendering, toggled with `Config.modeNUI`
+* **Fully Themeable** - Colours and sizes for both backends configured in `shared/theme.lua` (see [Theme](theme.md))
 * **Real-time Updates** - `toLoop` function allows items to update dynamically without closing the menu
 * **Event Handling** - Full support for `onRelease`, `onHoverIn`, `onHoverOut`, `onCheckedChanged` with automatic error protection
 * **Dynamic Modifications** - Change item properties on-the-fly using `setText`, `setChecked`, `setVisible`, `setDisabled`, `setClickable`

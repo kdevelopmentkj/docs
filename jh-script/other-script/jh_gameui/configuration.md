@@ -100,6 +100,22 @@ All values below live under the shared global `Minimap.config`.
 
 ***
 
+* **`chat`** : `table` — Drop-in replacement for the stock `chat` resource. Remember to **stop the stock `chat`** (do not `ensure chat`) — running both double-renders messages.
+  * **`enableGlobalMessages`** : `boolean` — How plain text (non-command) messages are handled.
+    * `true` — Relayed to the server, which re-broadcasts to **all** players (authoritative ; the sender only sees their own message once it comes back). Standard public chat (default).
+    * `false` — **No** server trigger : the message stays **local** to the player and is shown as `Privé`. For servers that don't want a public chat. Commands (`/…`) and the `/staff` channel still work.
+  * **`enableJoinMessages`** : `boolean` — Announce `X joined the server.` in every player's chat on connect (default: `true`).
+  * **`enableQuitMessages`** : `boolean` — Announce `X left the server.` in every player's chat on disconnect (default: `true`).
+  * **`defaultColor`** : `table` — Default `{ r, g, b }` color of global messages (default: `{ 255, 255, 255 }`).
+  * **`openKey`** : `string` — Key that opens the chat input. Registered via `RegisterKeyMapping`, so it is **rebindable in-game** from the FiveM key settings (default: `'T'`).
+  * **`staffCommand`** : `string` — Name of the staff channel command (without the leading `/`). Server command — only sent to players for whom `isStaff(source)` returns true, sender included (default: `'staff'` → `/staff <message>`).
+  * **`staffColor`** : `table` — `{ r, g, b }` color of staff-channel messages (default: `{ 233, 84, 32 }`).
+  * **`isStaff`** : `function(source) -> boolean` — Server-only predicate deciding who can use and receive the `/staff` channel. Defined at the **bottom of `config.lua`** (inside the `IsDuplicityVersion()` / else branch), **not** inline in the `chat` table. Returns `false` by default — adapt it to your admin system. `config.lua` ships commented examples for ACE (`IsPlayerAceAllowed(source, 'jh.staff')`), ESX and QBCore.
+
+> The chat's look (position, size, opacity, background style, text scale, line spacing, timestamps, idle fade, max messages, lock-to-input) is **NUI-side and player-editable** from the canvas editor — none of it lives in `config.lua`. The two editable widgets are **Chat** (the message log) and **Chat input** (the typing bar).
+
+***
+
 * **`debug`** : `table`
   * **`failFocusCommand`** : `string` — Console command (F8) that force-recovers NUI focus if the pause menu ever desyncs and traps the cursor. Run `/gameui_failFocus` (default: `'gameui_failFocus'`)
   * **`wrapper_debug`** : `boolean` — Verbose logging for the native blip-wrapper pipeline (blip interception → NUI sync). Noisy — keep `false` in production (default: `false`)

@@ -151,3 +151,75 @@ end)
 ```
 
 Values are clamped to `0`–`100` and rounded. The first call activates the bars and adds their on/off toggle to the minimap edit cog — the player can hide them from there.
+
+***
+
+## Use the chat (drop-in for the stock `chat`)
+
+JH\_GameUI ships a full replacement for the FiveM `chat` resource and re-exposes the **exact same API**. **Stop the stock `chat`** (do not `ensure chat`) — then every existing resource keeps working with no change.
+
+**Print a message** — any of the stock forms work, client **or** server :
+
+```lua
+-- Server → everyone
+TriggerClientEvent('chat:addMessage', -1, {
+    color = { 0, 153, 255 },
+    multiline = true,
+    args = { 'Dispatch', 'A robbery is in progress downtown.' },
+})
+
+-- Server → one player (src)
+TriggerClientEvent('chat:addMessage', src, {
+    args = { 'System', 'Welcome back!' },
+})
+
+-- Client (local message, this player only)
+exports.JH_GameUI:addMessage({ args = { 'Garage', 'Vehicle stored.' } })
+-- or the stock event form:
+TriggerEvent('chat:addMessage', { args = { 'Garage', 'Vehicle stored.' } })
+```
+
+A message is `{ color = {r,g,b}, multiline = true, args = { author, text } }`. With a single `args` entry it renders as a system line (no author). Plain strings and the deprecated `chatMessage` (`author, color, text`) form are also accepted for compatibility.
+
+**Register command autocomplete** — same stock events ; suggestions show as the player types `/` :
+
+```lua
+TriggerEvent('chat:addSuggestion', '/car', 'Spawn a vehicle', {
+    { name = 'model', help = 'Vehicle model name' },
+})
+-- remove it later:
+TriggerEvent('chat:removeSuggestion', '/car')
+```
+
+You usually don't need to do this for plain commands : JH\_GameUI **auto-seeds** the autocomplete from the client's `GetRegisteredCommands` and from the server's ACE-filtered command list (re-sent whenever the chat NUI reloads, e.g. on reconnect). `chat:addSuggestion` is only needed to add per-argument help.
+
+**Clear the chat** :
+
+```lua
+TriggerEvent('chat:clear')          -- or TriggerClientEvent('chat:clear', src)
+```
+
+***
+
+## Wire the `/staff` channel
+
+JH\_GameUI has a built-in staff channel : `/staff <message>` is a **server** command whose message is sent **only** to players for whom `isStaff(source)` returns true (the sender included). Non-staff never receive it and get a polite refusal if they try.
+
+Set the command name / color in `config.lua` under `Minimap.config.chat` (`staffCommand`, `staffColor`), then define **who is staff** at the bottom of `config.lua` (server-only branch) :
+
+```lua
+-- config.lua (inside the `else` / IsDuplicityVersion() branch at the bottom)
+function Minimap.config.chat.isStaff(source)
+    -- ACE (recommended):
+    return IsPlayerAceAllowed(source, 'jh.staff')
+
+    -- ESX:
+    -- local xPlayer = ESX.GetPlayerFromId(source)
+    -- return xPlayer ~= nil and xPlayer.getGroup() ~= 'user'
+
+    -- QBCore:
+    -- return QBCore.Functions.HasPermission(source, { 'admin', 'god' })
+end
+```
+
+`isStaff` runs **server-side** and is re-checked on every `/staff` use — a client cannot spoof staff access.

@@ -2,13 +2,14 @@
 
 {% embed url="https://kdev-jh.tebex.io/package/jh-gameui" %}
 
-**JH\_GameUI** is a complete replacement for GTA V's native HUD on FiveM, rebuilding the minimap, bigmap, pause menu, speedometer, compass, clock and blip rendering in a modern NUI. The game-native radar is disabled and every widget is streamed from Lua through a subscription pipeline, so widgets that are not displayed do not cost CPU. A drag-and-drop **canvas editor** lets the player reposition, resize and reskin each widget live ; a **custom blips editor** lets the player create / share / import map markers during gameplay. A transparent **blip wrapper** captures every native `AddBlipFor*` / `SetBlip*` call from any other resource and renders it on the custom map without code change.
+**JH\_GameUI** is a complete replacement for GTA V's native HUD on FiveM, rebuilding the minimap, bigmap, pause menu, speedometer, compass, clock, chat and blip rendering in a modern NUI. The game-native radar is disabled and every widget is streamed from Lua through a subscription pipeline, so widgets that are not displayed do not cost CPU. A drag-and-drop **canvas editor** lets the player reposition, resize and reskin each widget live ; a **custom blips editor** lets the player create / share / import map markers during gameplay. A transparent **blip wrapper** captures every native `AddBlipFor*` / `SetBlip*` call from any other resource and renders it on the custom map without code change. A drop-in **chat** replaces the stock `chat` resource — the same `chat:addMessage` / `chat:addSuggestion` API, so ESX, ox\_lib and every existing resource keep working unchanged.
 
 > _"Stop drawing on the native minimap, replace it. JH\_GameUI : a full HUD you can configure from inside the game."_
 
 #### ✨ Key Features
 
-* **Full native HUD replacement** — the game radar is disabled ; minimap, bigmap, pause menu, compass, speedometer, clock, player-count and blip rendering are all redrawn from scratch.
+* **Full native HUD replacement** — the game radar is disabled ; minimap, bigmap, pause menu, compass, speedometer, clock, player-count, chat and blip rendering are all redrawn from scratch.
+* **Drop-in chat** — a full replacement for the stock `chat` resource that re-exposes the exact same API (`chat:addMessage`, `chat:addSuggestion(s)`, `chat:removeSuggestion`, the `chatMessage` / `_chat:messageEntered` events, `exports.JH_GameUI:addMessage`). Existing resources (ESX, ox\_lib, custom commands) keep working with **zero code change** — just stop the stock `chat`. Command autocomplete is seeded from the client's `GetRegisteredCommands` **and** the server's ACE-filtered command list. Includes command history (↑/↓), `/command` execution, a built-in server-side `/staff` channel and config-gated join/quit announcements.
 * **In-game canvas editor** — every widget (position, size, scale, colors, border mode, visibility) is editable live by the player from the pause menu. Settings are persisted per-player in local KVP storage.
 * **Custom blips editor** — players can place, rename, style and remove personal map markers at runtime. Blips are persisted in KVP.
 * **Custom blips sharing** — proximity-based (`5m` by default), server-authoritative invite / accept flow with per-sender and per-target rate limits.
@@ -27,8 +28,9 @@
 JH\_GameUI is designed to plug into an existing server without code changes :
 
 1. Start JH\_GameUI anywhere in your `server.cfg`.
-2. _(Optional)_ In each resource that creates blips, add `client_script '@JH_GameUI/blip_wrapper.lua'` to its `fxmanifest.lua` — their blips will now appear on the custom map.
-3. _(Optional)_ Call `exports.JH_GameUI:setHudHidden(true/false)` from your cinematic / cutscene scripts.
+2. **Stop / remove the stock `chat` resource** (do **not** `ensure chat`). JH\_GameUI ships a drop-in chat that re-exposes the same API ; running both at once double-renders messages. If you don't want JH\_GameUI's chat, disable its widget from the canvas editor instead.
+3. _(Optional)_ In each resource that creates blips, add `client_script '@JH_GameUI/blip_wrapper.lua'` to its `fxmanifest.lua` — their blips will now appear on the custom map.
+4. _(Optional)_ Call `exports.JH_GameUI:setHudHidden(true/false)` from your cinematic / cutscene scripts.
 
 Everything else is configured in-game by each player from the pause menu.
 

@@ -201,25 +201,67 @@ TriggerEvent('chat:clear')          -- or TriggerClientEvent('chat:clear', src)
 
 ***
 
-## Wire the `/staff` channel
+## Register a chat mode / channel (e.g. a staff channel)
 
-JH\_GameUI has a built-in staff channel : `/staff <message>` is a **server** command whose message is sent **only** to players for whom `isStaff(source)` returns true (the sender included). Non-staff never receive it and get a polite refusal if they try.
-
-Set the command name / color in `config.lua` under `Minimap.config.chat` (`staffCommand`, `staffColor`), then define **who is staff** at the bottom of `config.lua` (server-only branch) :
+JH\_GameUI's chat is hook-compatible with the stock FiveM `chat` resource. From **any resource, server-side**, register a **mode** (a channel the player selects in the chat) and gate it behind an ACE with `seObject`. The channel then only appears in the selector for allowed players, only they can send in it, and the server-side history is filtered the same way — all automatic.
 
 ```lua
--- config.lua (inside the `else` / IsDuplicityVersion() branch at the bottom)
-function Minimap.config.chat.isStaff(source)
-    -- ACE (recommended):
-    return IsPlayerAceAllowed(source, 'jh.staff')
-
-    -- ESX:
-    -- local xPlayer = ESX.GetPlayerFromId(source)
-    -- return xPlayer ~= nil and xPlayer.getGroup() ~= 'user'
-
-    -- QBCore:
-    -- return QBCore.Functions.HasPermission(source, { 'admin', 'god' })
-end
+-- server side, after JH_GameUI has started
+exports['JH_GameUI']:registerMode({
+    name        = 'staff',
+    displayName = 'Staff',
+    color       = '#e95420',
+    isChannel   = true,
+    seObject    = 'jh.staff',          -- ACE the player must hold to see / use it
+    cb = function(source, message, hook)
+        hook.setSeObject('jh.staff')   -- deliver this message to ACE holders only
+    end,
+})
 ```
 
-`isStaff` runs **server-side** and is re-checked on every `/staff` use — a client cannot spoof staff access.
+The `cb(source, message, hook)` receives the sender, the outgoing message, and a `hook` :
+
+* `hook.cancel()` — drop the message entirely.
+* `hook.setRouting(targets)` — send only to a list of player server ids.
+* `hook.setSeObject(ace)` — send only to players holding that ACE.
+* `hook.updateMessage(t)` — patch fields of the outgoing message (`color`, `args`, `template`, `params`, …).
+
+Without `seObject` the channel is visible to everyone in the selector, and your `cb` decides who may actually send / receive — for a framework admin check instead of an ACE :
+
+```lua
+local function isStaff(src)
+    -- return ESX.GetPlayerFromId(src) ~= nil and ESX.GetPlayerFromId(src).getGroup() ~= 'user'
+    return false
+end
+
+exports['JH_GameUI']:registerMode({
+    name = 'staff', displayName = 'Staff', color = '#e95420', isChannel = true,
+    cb = function(source, message, hook)
+        if not isStaff(source) then hook.cancel(); return end
+        local staff = {}
+        for _, p in ipairs(GetPlayers()) do
+            if isStaff(tonumber(p)) then staff[#staff + 1] = p end
+        end
+        hook.setRouting(staff)
+    end,
+})
+```
+
+A ready-to-uncomment version of both approaches ships at the bottom of `config.lua` (server-only branch). Modes and hooks registered by a resource are removed automatically when that resource stops.
+
+***
+
+## Hook every chat message
+
+`registerMessageHook` runs your function over **every** message before it is routed — filter profanity, prefix authors, recolor, or cancel :
+
+```lua
+-- server side
+exports['JH_GameUI']:registerMessageHook(function(source, message, hook)
+    -- message.args = { author, text }  (or { text } for a system line)
+    local body = type(message.args) == 'table' and message.args[#message.args] or ''
+    if body:find('badword') then
+        hook.cancel()
+    end
+end)
+```

@@ -17,6 +17,7 @@ All values below live under the shared global `Minimap.config`.
     * label: `string` — (default: `'Minimap Big (Toggle)'`)
   * **`pauseMenuControls`** : `table` — GTA native control IDs that open the custom pause menu.
     * Default: `{199, 200}` (`FRONTEND_PAUSE` + `FRONTEND_PAUSE_ALTERNATE` / ESC).
+  * **`pauseMenuCooldownMs`** : `number` — Anti-spam : minimum delay (ms) before the pause menu can re-open after an open **or** a close. Stops hammering ESC/P from spamming the open/close (default: `400`).
 
 ***
 
@@ -31,6 +32,12 @@ All values below live under the shared global `Minimap.config`.
   * **`stats`** : `table` — HP + armor.
     * active: `number` (default: `1500`)
   * **`vehicle`** : `table` — Speedometer thread. Only exists **while** the player is in a vehicle (entry detected via `CEventNetworkPlayerEnteredVehicle`, exit detected by a lightweight watchdog). Covers speed, rpm, gear, fuel, engine health.
+    * active: `number` (default: `100`)
+    * idle: `number` (default: `250`)
+  * **`street`** : `table` — Current street name thread (`GetStreetNameAtCoord`). Pushes only when the street hash changes ; idle backs off while the player stays on the same road. Sub-gated : the thread dies when the street widget is disabled.
+    * active: `number` (default: `100`)
+    * idle: `number` (default: `250`)
+  * **`voice`** : `table` — Local talking indicator (`MumbleIsPlayerTalking`, the same check pma-voice uses). Drives the mic icon ; proximity / radio / call changes are event-driven (state bags), not polled. The whole Voice module no-ops when pma-voice isn't running.
     * active: `number` (default: `100`)
     * idle: `number` (default: `250`)
 
@@ -107,12 +114,19 @@ All values below live under the shared global `Minimap.config`.
   * **`enableJoinMessages`** : `boolean` — Announce `X joined the server.` in every player's chat on connect (default: `true`).
   * **`enableQuitMessages`** : `boolean` — Announce `X left the server.` in every player's chat on disconnect (default: `true`).
   * **`defaultColor`** : `table` — Default `{ r, g, b }` color of global messages (default: `{ 255, 255, 255 }`).
+  * **`guardColor`** : `table` — `{ r, g, b }` color of **system** messages tagged `GUARD` (unknown command, "not allowed" and other server notices). These are personal notices and are never stored in history (default: `{ 245, 158, 11 }`).
   * **`openKey`** : `string` — Key that opens the chat input. Registered via `RegisterKeyMapping`, so it is **rebindable in-game** from the FiveM key settings (default: `'T'`).
-  * **`staffCommand`** : `string` — Name of the staff channel command (without the leading `/`). Server command — only sent to players for whom `isStaff(source)` returns true, sender included (default: `'staff'` → `/staff <message>`).
-  * **`staffColor`** : `table` — `{ r, g, b }` color of staff-channel messages (default: `{ 233, 84, 32 }`).
-  * **`isStaff`** : `function(source) -> boolean` — Server-only predicate deciding who can use and receive the `/staff` channel. Defined at the **bottom of `config.lua`** (inside the `IsDuplicityVersion()` / else branch), **not** inline in the `chat` table. Returns `false` by default — adapt it to your admin system. `config.lua` ships commented examples for ACE (`IsPlayerAceAllowed(source, 'jh.staff')`), ESX and QBCore.
+  * **`historySize`** : `number` — Number of recent messages the **server** keeps and restores to a player when their chat (re)loads. History is filtered by what each player may see : global messages to everyone, channel messages only to players holding the channel's `seObject` ACE. Private messages (`enableGlobalMessages = false`) are never stored server-side. `0` disables history (default: `100`).
 
-> The chat's look (position, size, opacity, background style, text scale, line spacing, timestamps, idle fade, max messages, lock-to-input) is **NUI-side and player-editable** from the canvas editor — none of it lives in `config.lua`. The two editable widgets are **Chat** (the message log) and **Chat input** (the typing bar).
+> Custom chat **modes / channels** (for example a staff channel) are **not** configured here — they are registered at runtime from any resource with `exports['JH_GameUI']:registerMode({...})`, optionally gated by an ACE via `seObject`, and you can intercept every message with `exports['JH_GameUI']:registerMessageHook(fn)`. `config.lua` ships a commented staff-channel example at its bottom (server-only branch). See [Example of use](example-of-use.md).
+
+> The chat's look (position, size, opacity, background style, text scale, line spacing, timestamps, idle fade, max messages, lock-to-input, message grouping, search) is **NUI-side and player-editable** from the canvas editor — none of it lives in `config.lua`. The two editable widgets are **Chat** (the message log) and **Chat input** (the typing bar).
+
+***
+
+* **`voice`** : `table` — Voice HUD indicator. An **add-on** to [pma-voice](https://github.com/AvarianKnight/pma-voice) — the whole module no-ops when pma-voice isn't running. The widget reads pma's state bags (proximity mode, radio channel / talk, call channel) and the local mic state ; it never changes how voice works.
+  * **`resource`** : `string` — pma-voice resource name, used to detect it is running and as the convar owner. A renamed fork only needs this changed (default: `'pma-voice'`).
+  * **`disablePmaUi`** : `boolean` — `true` makes the server set the replicated convar `voice_enableUi = 0` so pma-voice's **own** talk overlay is hidden and only JH\_GameUI's voice widget shows. `false` leaves pma-voice's UI as configured in your `server.cfg` (default: `true`).
 
 ***
 

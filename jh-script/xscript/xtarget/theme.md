@@ -31,6 +31,19 @@ Theme.renderer.colors.text = Colors.White
 Theme.renderer.colors.progress = Color(120, 200, 120)
 ```
 
+```lua
+color:Alpha(a)
+```
+
+Returns a **copy** of an existing colour with a different alpha — handy to reuse a palette entry at another opacity.
+
+* a: `number` — `0`–`255`
+* **return** `Color`
+
+```lua
+Theme.renderer.colors.background = Colors.Black:Alpha(200)
+```
+
 ***
 
 ## `Theme.renderer` — Native draw
@@ -79,3 +92,17 @@ Theme.renderer.colors.progress = Color(120, 200, 120)
   * submenuGap: `number` — Gap between a menu and its open submenu (px) (default: `6`)
 
 > The per-item palette in `Theme.renderer.colors` (text, background, hovered, progress, …) is shared by both backends — the NUI renderer reads the same colours.
+
+***
+
+## `Theme.rebuild()`
+
+The renderer pre-computes its translucent background colours (built from `colors.background`, `colors.backgroundHovered` and `menu.alpha`) once, when `shared/theme.lua` loads. Editing the values **inside that file** therefore needs nothing extra.
+
+If you change any of those values **at runtime**, call `Theme.rebuild()` afterwards so the pre-computed colours are recalculated:
+
+```lua
+Theme.renderer.menu.alpha = 220
+Theme.renderer.colors.background = Colors.DarkGrey
+Theme.rebuild()
+```

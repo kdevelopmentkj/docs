@@ -585,3 +585,44 @@ Xtarget.register(function(menuManager, staticRaycastResult, menuType)
     })
 end)
 ```
+
+***
+
+## Custom Target Type
+
+Register your own type once, then use it in your menus exactly like `menuType.Vehicle` or `menuType.Ped`. The predicate receives the raycast result and simply returns `true` when your type applies.
+
+```lua
+local Xtarget = exports.Xtarget:getSharedObject()
+
+-- 1. Declare the type: "a damaged vehicle"
+local typeUUID = Xtarget.registerType('DamagedVehicle', function(staticRaycastResult)
+    local entity = staticRaycastResult.hitEntity
+    if not entity or entity == 0 or not DoesEntityExist(entity) then return false end
+    if not IsEntityAVehicle(entity) then return false end
+    return GetVehicleEngineHealth(entity) < 500.0
+end)
+
+-- 2. Build a menu for it
+Xtarget.register(function(menuManager, staticRaycastResult, menuType)
+    if not menuType.DamagedVehicle then return end
+
+    menuManager().addBasicItem({
+        text = 'Repair engine',
+        closeOnClick = true,
+        onRelease = function(item)
+            SetVehicleEngineHealth(staticRaycastResult.hitEntity, 1000.0)
+        end,
+    })
+end)
+```
+
+The name must not collide with a built-in type (`Networked`, `Object`, `Vehicle`, `Ped`, `Player`, `Coord`, `Void`) — `registerType` returns `false` in that case. Your predicate runs inside a `pcall`, so an error just means the type does not match.
+
+Remove it manually if you need to:
+
+```lua
+Xtarget.unregisterType(typeUUID)
+```
+
+You normally do not have to: every type a resource registers is unregistered automatically when that resource stops.

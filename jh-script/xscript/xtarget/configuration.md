@@ -21,9 +21,10 @@ The configuration file is located at `shared/config.lua` and can be modified dir
   * ignore: `number` - Entities to ignore (default: `0`)
 * **`compat`** : `table`
   * ox\_target: `table`
-    * enable: `boolean` - Enable ox\_target compatibility (default: `false`)
+    * enable: `boolean` - Enable ox\_target compatibility (default: `true`)
+    * defaultDistance: `number` - Max targeting distance in meters applied to an ox\_target option that does not declare its own `distance` (default: `7.0`)
     * onSubMenu: `table`
-      * enable: `boolean` - Show ox\_target items in submenu (default: `false`)
+      * enable: `boolean` - Group ox\_target items in their own submenu instead of merging them into the main menu (default: `true`)
       * text: `string` - Submenu text (default: `'Ox Target Integration'`)
 * **`debug`** : `table`
   * showRaycastOutline: `boolean` - Show raycast outline (default: `false`)
@@ -31,5 +32,10 @@ The configuration file is located at `shared/config.lua` and can be modified dir
   * showRaycastResult: `boolean` - Show raycast result (default: `false`)
   * showEntityType: `boolean` - Show entity type (default: `false`)
 * **`customProcess`** : `function`
-  * Custom function called every frame when menu is open (default: draws marker on ped head)
+  * Called every frame while targeting, before the hit is resolved. Empty by default.
   * Receives `staticRaycastResult` as parameter
+* **`customProcessAfterHit`** : `function`
+  * Called every frame while targeting, but **only when the raycast actually hit something**. Ships with an example that draws a marker above a ped's head.
+  * Receives `staticRaycastResult` as parameter
+
+> Both hooks run inside a `pcall`. If yours raises an error, the error is printed once and **that hook is disabled for the rest of the session** — targeting itself keeps working.

@@ -30,6 +30,29 @@ Xtarget.unregister(uuid)
 
 ***
 
+```lua
+Xtarget.registerType(name, predicate)
+```
+
+Registers a **custom target type**. Whenever `predicate` returns `true` for the current raycast, `name` is set to `true` on the `menuType` table passed to your menu callbacks — so you can build menus for your own conditions exactly like the built-in types.
+
+* name: `string` - Name of your type. It must **not** be one of the built-in names (`Networked`, `Object`, `Vehicle`, `Ped`, `Player`, `Coord`, `Void`) — a collision is rejected.
+* predicate: `function` - Called with `staticRaycastResult`; return `true` for the type to apply. It runs inside a `pcall`, so an error simply means "type not matched".
+* **return** uuid: `string` - Identifier to pass to `unregisterType()`, or `false` if the arguments are invalid.
+
+Types are tracked per resource: everything a resource registers is unregistered automatically when that resource stops.
+
+***
+
+```lua
+Xtarget.unregisterType(uuid)
+```
+
+* uuid: `string` - The UUID returned by `registerType()`
+* **return** success: `boolean`
+
+***
+
 ## menuManager
 
 The menuManager function is passed to your callback and provides methods to build your menu.
@@ -293,6 +316,8 @@ The menuType table contains boolean flags indicating what type of target was det
 * Networked: `boolean` - True if targeting a networked entity
 * Coord: `boolean` - True if targeting coordinates (ground, wall)
 * Void: `boolean` - True if not targeting anything
+
+Custom types registered with `Xtarget.registerType()` appear in this same table under their own name, alongside the built-in flags.
 
 ***
 

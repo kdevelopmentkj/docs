@@ -13,6 +13,7 @@ _All menu operations are fully protected via **pcall**, ensuring that unexpected
 #### ✨ Key Features
 
 * **Dynamic Menu Types** - Automatically detects and displays menus based on entity type (Vehicle, Ped, Player, Object, Networked, Coordinates, Void)
+* **Custom Target Types** - Register your own type from any resource with `Xtarget.registerType(name, predicate)`; it appears in `menuType` alongside the built-in flags and is cleaned up automatically when your resource stops (see [Client](client.md))
 * **Flexible Item System** - Support for basic items, checkboxes, separators, nested submenus, titles, values, progress bars, lists (cyclic selectors), sliders, and paginated page lists
 * **Two Render Backends** - Native GTA draw (default) or NUI web rendering, toggled with `Config.modeNUI`
 * **Fully Themeable** - Colours and sizes for both backends configured in `shared/theme.lua` (see [Theme](theme.md))
@@ -40,6 +41,7 @@ _All menu operations are fully protected via **pcall**, ensuring that unexpected
 * **Networked** - Displayed when targeting networked entities
 * **Coord** - Displayed when targeting ground/walls (coordinates)
 * **Void** - Displayed when not targeting anything specific
+* **Custom** - Any type you register yourself with `Xtarget.registerType()`, matched by your own predicate
 
 ***
 

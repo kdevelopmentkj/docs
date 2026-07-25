@@ -46,6 +46,8 @@ All values below live under the shared global `Minimap.config`.
 * **`sync`** : `table`
   * **`nuiBatchMs`** : `number` — Coalescing window for state-bag changes before pushing to NUI. "Last value wins" within this window → turns N rapid mutations into a single push (default: `50`)
   * **`exitWatchMs`** : `number` — Polling cadence for vehicle-exit detection (no reliable native event exists for the exit side of a vehicle) (default: `1500`)
+  * **`routeSimplifyEps`** : `number` — When you set a waypoint in a vehicle, the GPS route is replicated to passengers through your player state bag. Only that **replicated copy** is compressed (the local route you see stays full resolution) : it is Douglas-Peucker simplified with this max deviation (meters), stripped of its `z`, and packed as a flat integer array — roughly 20–50× smaller on the wire. `2.0` is under one screen pixel at any zoom ; `0` disables simplification (not recommended) (default: `2.0`)
+  * **`routeMaxPoints`** : `number` — Hard ceiling on the replicated route after simplification. A route still above it is evenly decimated (endpoints always kept) (default: `800`)
 
 ***
 
@@ -84,6 +86,8 @@ All values below live under the shared global `Minimap.config`.
   * **`maxBlipsPerInvite`** : `number` — Max blips per invite. Protects against oversized payloads (default: `50`)
   * **`maxPendingPerSender`** : `number` — Max simultaneous pending invites **from** the same sender. Prevents burst-spamming multiple targets during the `rateLimitMs` window by cycling through them (default: `3`)
   * **`maxPendingPerTarget`** : `number` — Max simultaneous pending invites **to** the same target. Anti collective-harassment : N senders can't pile modals on one player (default: `5`)
+  * **`inviteTtlMs`** : `number` — Lifetime (ms) of an invite left unanswered. On expiry the server drops it, frees **both** quota slots (sender + target), tells the sender it expired and tells the target to close its modal and release the forced NUI focus — so a player who disconnects mid-invite can't pin the sender's quota forever. Both UIs show a live countdown fed by this value (default: `600000`, 10 min)
+  * **`sweepIntervalMs`** : `number` — How often the server sweeps for expired invites. Only bounds the precision of the expiry, not the TTL itself (default: `5000`)
 
 ***
 
@@ -117,6 +121,7 @@ All values below live under the shared global `Minimap.config`.
   * **`guardColor`** : `table` — `{ r, g, b }` color of **system** messages tagged `GUARD` (unknown command, "not allowed" and other server notices). These are personal notices and are never stored in history (default: `{ 245, 158, 11 }`).
   * **`openKey`** : `string` — Key that opens the chat input. Registered via `RegisterKeyMapping`, so it is **rebindable in-game** from the FiveM key settings (default: `'T'`).
   * **`historySize`** : `number` — Number of recent messages the **server** keeps and restores to a player when their chat (re)loads. History is filtered by what each player may see : global messages to everyone, channel messages only to players holding the channel's `seObject` ACE. Private messages (`enableGlobalMessages = false`) are never stored server-side. `0` disables history (default: `100`).
+  * **`maxLengthMessage`** : `number` — Maximum length (bytes) of a chat message ; longer messages are truncated on a UTF-8 boundary (never mid-character). Kept generous so a long image URL is not cut mid-query (default: `1024`).
 
 > Custom chat **modes / channels** (for example a staff channel) are **not** configured here — they are registered at runtime from any resource with `exports['JH_GameUI']:registerMode({...})`, optionally gated by an ACE via `seObject`, and you can intercept every message with `exports['JH_GameUI']:registerMessageHook(fn)`. `config.lua` ships a commented staff-channel example at its bottom (server-only branch). See [Example of use](example-of-use.md).
 

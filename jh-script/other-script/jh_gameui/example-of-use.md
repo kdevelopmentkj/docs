@@ -265,3 +265,43 @@ exports['JH_GameUI']:registerMessageHook(function(source, message, hook)
     end
 end)
 ```
+
+***
+
+## Show instructional buttons (key prompts)
+
+JH\_GameUI renders GTA V key prompts in a HUD widget the player can move and style. From **any client** resource, push a set of buttons with the export — it returns an id you use to hide them again :
+
+```lua
+local id = exports.JH_GameUI:showInstructional({
+    buttons = {
+        { key = 'E',     label = 'Interact' },  -- raw key glyph
+        { control = 201, label = 'Confirm'  },  -- GTA control id (follows the player's binding)
+        { icon = 45,     label = 'Scroll'   },  -- CFX icon 0-50
+    },
+})
+
+-- later, when the prompt no longer applies:
+exports.JH_GameUI:hideInstructional(id)
+```
+
+Each button takes a `label` plus **one** of : `key` (a raw key glyph), `control` (a GTA control id, resolved through `GetControlInstructionalButton` so the glyph follows the player's own key bindings) or `icon` (a CFX icon index `0`–`50`). There is no cap on the number of buttons — the widget wraps.
+
+***
+
+## Pipe an existing script's key prompts to the HUD
+
+Any resource that already draws instructional buttons through the native `INSTRUCTIONAL_BUTTONS` scaleform can forward them to JH\_GameUI's widget with **one manifest line** — no Lua change, exactly like the blip wrapper.
+
+**`fxmanifest.lua` of your resource** :
+
+```lua
+client_scripts {
+    -- 👇 Add this alongside your scripts
+    '@JH_GameUI/instructional_wrapper.lua',
+
+    'client/main.lua',
+}
+```
+
+Your existing scaleform code keeps working untouched — both the modern (`Begin`/`AddParam`/`End`) and legacy (`Push`/`PushParameter`/`Pop`) call styles are handled, including calls made by hash. When `instructional.takeover` is on (see [Configuration](configuration.md)) and JH\_GameUI is running, the native draw is swallowed so prompts are not shown twice ; if there is no host, the player has turned takeover off, or the prompts are clickable, the game's own rendering is used, so the screen is never left without prompts.

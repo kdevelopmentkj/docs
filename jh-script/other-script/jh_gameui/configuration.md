@@ -135,9 +135,19 @@ All values below live under the shared global `Minimap.config`.
 
 ***
 
+* **`instructional`** : `table` — Instructional buttons (GTA V key prompts). Prompts reach the HUD widget through two paths : the `exports.JH_GameUI:showInstructional{ ... }` API, and `instructional_wrapper.lua` loaded by a third-party resource to intercept its `INSTRUCTIONAL_BUTTONS` scaleform (see [Example of use](example-of-use.md)).
+  * **`takeover`** : `boolean` — Startup default for the widget.
+    * `true` — **Replace** the game rendering : the native scaleform is no longer drawn and prompts show up in the movable / styleable NUI widget.
+    * `false` — The game draws its own prompts ; the wrappers feed the widget nothing (the export API still works).
+    * Each player can flip this from the widget cog — this is only the initial value. **Clickable** prompts (`TOGGLE_MOUSE_BUTTONS`) always keep the native rendering regardless, since their click is handled inside the scaleform (default: `true`).
+  * **`hideDelayMs`** : `number` — Prompts only exist while the owning resource keeps redrawing them every frame ; this is how long to wait without a redraw before treating them as gone. Too short = flicker on a resource that skips a frame ; too long = the prompt lingers after it should be gone (default: `250`).
+
+***
+
 * **`debug`** : `table`
   * **`failFocusCommand`** : `string` — Console command (F8) that force-recovers NUI focus if the pause menu ever desyncs and traps the cursor. Run `/gameui_failFocus` (default: `'gameui_failFocus'`)
   * **`wrapper_debug`** : `boolean` — Verbose logging for the native blip-wrapper pipeline (blip interception → NUI sync). Noisy — keep `false` in production (default: `false`)
+  * **`instructional_debug`** : `boolean` — Same, for the instructional-buttons pipeline (scaleform interception → host → NUI). Keep `false` in production (default: `false`)
 
 ***
 
